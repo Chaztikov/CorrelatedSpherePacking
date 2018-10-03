@@ -1,0 +1,617 @@
+%!PS
+/m {moveto} def
+/l {lineto} def
+/r {rlineto} def
+/s {stroke} def
+/n {newpath} def
+/c {closepath} def
+2 setlinejoin 
+/rtext{ dup stringwidth pop -1 div 0  rmoveto show } def
+/ltext{show} def
+/ctext{ dup stringwidth pop -2 div 0  rmoveto show } def
+/bullet{ 6 0 360 arc c fill } def
+0.240000 0.240000 scale
+/Helvetica             findfont   31 scalefont setfont
+   38   501 translate
+   90 rotate
+0000 0000 m
+(Frequency) ctext
+  -90 rotate
+  -38  -501 translate
+0690 0016 m
+(Variable) ctext
+ 3.719 setlinewidth
+n
+0188 0874 m
+0188 0128 l
+1191 0128 l
+s
+ 1.981 setlinewidth
+n
+0188 0128 m
+0188 0109 l
+s
+/Helvetica             findfont   31 scalefont setfont
+0188 0079 m
+(0.00) ctext
+n
+0232 0128 m
+0232 0118 l
+s
+n
+0275 0128 m
+0275 0118 l
+s
+n
+0319 0128 m
+0319 0118 l
+s
+n
+0362 0128 m
+0362 0109 l
+s
+0362 0079 m
+(0.20) ctext
+n
+0406 0128 m
+0406 0118 l
+s
+n
+0450 0128 m
+0450 0118 l
+s
+n
+0493 0128 m
+0493 0118 l
+s
+n
+0537 0128 m
+0537 0109 l
+s
+0537 0079 m
+(0.40) ctext
+n
+0580 0128 m
+0580 0118 l
+s
+n
+0624 0128 m
+0624 0118 l
+s
+n
+0668 0128 m
+0668 0118 l
+s
+n
+0711 0128 m
+0711 0109 l
+s
+0711 0079 m
+(0.60) ctext
+n
+0755 0128 m
+0755 0118 l
+s
+n
+0799 0128 m
+0799 0118 l
+s
+n
+0842 0128 m
+0842 0118 l
+s
+n
+0886 0128 m
+0886 0109 l
+s
+0886 0079 m
+(0.80) ctext
+n
+0929 0128 m
+0929 0118 l
+s
+n
+0973 0128 m
+0973 0118 l
+s
+n
+1017 0128 m
+1017 0118 l
+s
+n
+1060 0128 m
+1060 0109 l
+s
+1060 0079 m
+(1.00) ctext
+n
+1104 0128 m
+1104 0118 l
+s
+n
+1147 0128 m
+1147 0118 l
+s
+n
+1191 0128 m
+1191 0118 l
+s
+n
+0188 0128 m
+0162 0128 l
+s
+0157 0128 m
+(0.0000) rtext
+n
+0188 0147 m
+0174 0147 l
+s
+n
+0188 0167 m
+0174 0167 l
+s
+n
+0188 0186 m
+0174 0186 l
+s
+n
+0188 0205 m
+0174 0205 l
+s
+n
+0188 0225 m
+0162 0225 l
+s
+0157 0225 m
+(0.0100) rtext
+n
+0188 0244 m
+0174 0244 l
+s
+n
+0188 0263 m
+0174 0263 l
+s
+n
+0188 0283 m
+0174 0283 l
+s
+n
+0188 0302 m
+0174 0302 l
+s
+n
+0188 0321 m
+0162 0321 l
+s
+0157 0321 m
+(0.0200) rtext
+n
+0188 0340 m
+0174 0340 l
+s
+n
+0188 0360 m
+0174 0360 l
+s
+n
+0188 0379 m
+0174 0379 l
+s
+n
+0188 0398 m
+0174 0398 l
+s
+n
+0188 0418 m
+0162 0418 l
+s
+0157 0418 m
+(0.0300) rtext
+n
+0188 0437 m
+0174 0437 l
+s
+n
+0188 0456 m
+0174 0456 l
+s
+n
+0188 0476 m
+0174 0476 l
+s
+n
+0188 0495 m
+0174 0495 l
+s
+n
+0188 0514 m
+0162 0514 l
+s
+0157 0514 m
+(0.0400) rtext
+n
+0188 0534 m
+0174 0534 l
+s
+n
+0188 0553 m
+0174 0553 l
+s
+n
+0188 0572 m
+0174 0572 l
+s
+n
+0188 0591 m
+0174 0591 l
+s
+n
+0188 0611 m
+0162 0611 l
+s
+0157 0611 m
+(0.0500) rtext
+n
+0188 0630 m
+0174 0630 l
+s
+n
+0188 0649 m
+0174 0649 l
+s
+n
+0188 0669 m
+0174 0669 l
+s
+n
+0188 0688 m
+0174 0688 l
+s
+n
+0188 0707 m
+0162 0707 l
+s
+0157 0707 m
+(0.0600) rtext
+n
+0188 0727 m
+0174 0727 l
+s
+n
+0188 0746 m
+0174 0746 l
+s
+n
+0188 0765 m
+0174 0765 l
+s
+n
+0188 0784 m
+0174 0784 l
+s
+n
+0188 0804 m
+0162 0804 l
+s
+0157 0804 m
+(0.0700) rtext
+n
+0188 0823 m
+0174 0823 l
+s
+n
+0188 0842 m
+0174 0842 l
+s
+n
+0188 0862 m
+0174 0862 l
+s
+ 1.250 setlinewidth
+n
+0144 0128 m
+0144 0128 l
+0188 0128 l
+0188 0128 l
+0144 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0188 0128 m
+0188 0852 l
+0232 0852 l
+0232 0128 l
+0188 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0232 0128 m
+0232 0813 l
+0275 0813 l
+0275 0128 l
+0232 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0275 0128 m
+0275 0620 l
+0319 0620 l
+0319 0128 l
+0275 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0319 0128 m
+0319 0727 l
+0362 0727 l
+0362 0128 l
+0319 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0362 0128 m
+0362 0698 l
+0406 0698 l
+0406 0128 l
+0362 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0406 0128 m
+0406 0447 l
+0450 0447 l
+0450 0128 l
+0406 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0450 0128 m
+0450 0456 l
+0493 0456 l
+0493 0128 l
+0450 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0493 0128 m
+0493 0601 l
+0537 0601 l
+0537 0128 l
+0493 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0537 0128 m
+0537 0543 l
+0580 0543 l
+0580 0128 l
+0537 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0580 0128 m
+0580 0524 l
+0624 0524 l
+0624 0128 l
+0580 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0624 0128 m
+0624 0562 l
+0668 0562 l
+0668 0128 l
+0624 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0668 0128 m
+0668 0582 l
+0711 0582 l
+0711 0128 l
+0668 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0711 0128 m
+0711 0582 l
+0755 0582 l
+0755 0128 l
+0711 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0755 0128 m
+0755 0534 l
+0799 0534 l
+0799 0128 l
+0755 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0799 0128 m
+0799 0611 l
+0842 0611 l
+0842 0128 l
+0799 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0842 0128 m
+0842 0630 l
+0886 0630 l
+0886 0128 l
+0842 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0886 0128 m
+0886 0620 l
+0929 0620 l
+0929 0128 l
+0886 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0929 0128 m
+0929 0601 l
+0973 0601 l
+0973 0128 l
+0929 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+0973 0128 m
+0973 0582 l
+1017 0582 l
+1017 0128 l
+0973 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+1017 0128 m
+1017 0582 l
+1060 0582 l
+1060 0128 l
+1017 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+ 1.250 setlinewidth
+n
+1060 0128 m
+1060 0176 l
+1104 0176 l
+1104 0128 l
+1060 0128 l
+c gsave 
+0.90 setgray
+fill
+grestore s
+0.00 setgray
+/Helvetica-BoldOblique findfont   33 scalefont setfont
+0188 0881 m
+(Pfield histogram) ltext
+/Helvetica             findfont   29 scalefont setfont
+0930 0881 m
+(Number of Data) rtext
+0950 0881 m
+(1000) ltext
+0930 0837 m
+(mean) rtext
+0950 0837 m
+(0.4778) ltext
+0930 0804 m
+(std. dev.) rtext
+0950 0804 m
+(0.3037) ltext
+0930 0771 m
+(coef. of var) rtext
+0950 0771 m
+(0.6357) ltext
+0930 0726 m
+(maximum) rtext
+0950 0726 m
+(1.0000) ltext
+0930 0693 m
+(upper quartile) rtext
+0950 0693 m
+(0.7521) ltext
+0930 0661 m
+(median) rtext
+0950 0661 m
+(0.4805) ltext
+0930 0628 m
+(lower quartile) rtext
+0950 0628 m
+(0.1928) ltext
+0930 0595 m
+(minimum) rtext
+0950 0595 m
+(0.0014) ltext
+%END OF HISTOGRAM
+4.166667 4.166667 scale
+%showpage

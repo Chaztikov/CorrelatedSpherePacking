@@ -1,0 +1,21 @@
+July 27, 1999  Markus Hilpert
+
+This is the subdirectory that I recovered from Raghu's account on the
+SGI Indigo work stations.  I made the stuff run on the SGI Origin of
+the ATN.  There was one problem with a format statement which
+apparently was not used.  I described my changes in the source code.
+If I was wrong the String "RUBBISH" would appear sonmewhere in the
+output file "pack.out" of the program "rnpack".
+
+I tried to bring a little bit order into the files.  The source code
+is now in the subdirectory "SOURCE" (formerly "pub").  I also created
+a makefile that copies the executable file into the subdirectory
+"EXEC".  The subdirectory "EXAMPLE" contains an example how to use the
+code.  It assumes that the path also contains the EXEC directory.
+
+Obviously there are still a lot of data files in this directory that
+are mixed up with source code.  This is not nice but I will not remove
+the data files now because some could be used to generate correlated
+packings which I do not know how to do yet.  But in future no data
+should be added to this subdirectory.
+

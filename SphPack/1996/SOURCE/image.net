@@ -1,0 +1,43 @@
+#!/usr/bin/avs -network
+version 5.01 (50.53 sg)
+module "read image.user.0" -xy 178,122 -ex $Path/avs_library/mongo
+module "display image.user.1" -xy 78,202
+module "image to postscript.user.2" -xy 308,362 -ex $Path/avs_library/mongo
+port_connect "read image.user.0":0 "image to postscript.user.2":0
+port_connect "read image.user.0":0 "display image.user.1":0
+parm_set "read image.user.0":"Read Image Browser" /usr/people/raghu/pore/sphere.x
+parm_set "image to postscript.user.2":filename spheres.eps
+parm_set "image to postscript.user.2":mode color
+parm_set "image to postscript.user.2":encapsulate true
+parm_set "image to postscript.user.2":"page size x" 6
+parm_set "image to postscript.user.2":"page size y" 8.5
+shell "ui" shell
+ panel Application -w app_panel -p ui -xy 0,0 -wh 260,984
+  panel "Top Level Stack" -w master_stack -p Application -xy 2,100 -wh 256,322
+   panel "read image.user.0" -w panel -p "Top Level Stack" -xy 0,108 -wh 256,214
+    manipulator "read image.user.0:Read Image Browser" -w browser -p "read image.user.0" \
+        -xy 10,10 -wh 236,194
+   panel "display image.user.1" -w panel -p "Top Level Stack" \
+       -xy 0,86 -wh 138,130
+    manipulator "display image.user.1:approx technique" -w radio_buttons -p "display image.user.1" \
+        -xy 10,10 -wh 118,110
+   panel "image to postscript.user.2" -w panel -p "Top Level Stack" \
+       -xy 0,108 -wh 256,174
+    manipulator "image to postscript.user.2:filename" -w typein -p "image to postscript.user.2" \
+        -xy 10,10 -wh 236,22
+    manipulator "image to postscript.user.2:mode" -w radio_buttons -p "image to postscript.user.2" \
+        -xy 10,32 -wh 118,44
+    manipulator "image to postscript.user.2:encapsulate" -w toggle -p "image to postscript.user.2" \
+        -xy 10,76 -wh 118,22
+    manipulator "image to postscript.user.2:landscape" -w toggle -p "image to postscript.user.2" \
+        -xy 10,98 -wh 118,22
+    manipulator "image to postscript.user.2:page size x" -w typein_real -p "image to postscript.user.2" \
+        -xy 10,120 -wh 236,22
+    manipulator "image to postscript.user.2:page size y" -w typein_real -p "image to postscript.user.2" \
+        -xy 10,142 -wh 236,22
+ panel "display image.user.1!image" -w container -p ui -xy 474,-6 -wh 541,584\
+   -P zoom_coords string "0 0 0 0 0 <$NULL> 0 0 0 0"
+manipulator "display image.user.1":Magnification -w none
+manipulator "display image.user.1":Automag_Size -w none
+manipulator "display image.user.1":"Maximum Image Dimension" -w none
+# End of file

@@ -1,0 +1,8 @@
+ncl    nch    nczl   nczh___
+      1      7      1     7 
+
+ncl - extracted from cell ncl in x or y direction
+nch - the end cell for extraction in x or y direction
+nczl - extracted from cell nczl in z diretion
+nczh - the end cell for extraction in z direction
+

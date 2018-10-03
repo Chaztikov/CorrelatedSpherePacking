@@ -1,0 +1,17 @@
+                     Parameters for HISTPLT
+                     **********************
+ 
+START OF PARAMETERS:
+pfield.dat                              \data file
+2   0                                   \column for variable and weight
+pfield.hist                              \output PostScript file
+-1.e+21   1.e+21                        \trimming limits
+ 0.000    1.00                           \histogram minimum and maximum
+20                                      \number of classes
+0                                       \1=log scale, 0=arithmetic
+Pfield histogram                         \title
+
+
+
+When using log scale, keep histogram minimum and maximum the same, i.e.
+do not alter them for log scaling.

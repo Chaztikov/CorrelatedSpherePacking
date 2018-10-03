@@ -1,0 +1,20 @@
+                                Domain Size:   0.35478E+01
+                               Domain depth:   0.35478E+01
+             Number of cells in x or y axis:             4
+                  Number of cells in z axis:             4
+                        Number of particles:           294
+                        Maximum samplable r:   0.41819E+00
+                        Minimum samplable r:   0.15249E+00
+                        Average samplable r:   0.25000E+00
+                             S.D. for ln(r):   0.20000E+00
+                               Pixel length:   0.27718E-01
+    Number of pixels in each axis in a cell:            32
+            Number of pixels in x or y axis:           128
+                 Number of pixels in z axis:           128
+                     Porosity of the sample:   0.50063E+00
+
+              Pore data extracted from cell:             3
+                Pore data extracted to cell:             6
+         Number of pixels in each direction:           128
+            2-D pore data extracted at cell:             3
+      2-D pore data extracted at x_th pixel:             1

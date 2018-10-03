@@ -1,0 +1,43 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "makerun",
+            "type": "shell",
+            "command":"ifort -f77rtl -extend-lines=132 rnpack.f",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        // {
+        //     "label": "grind",
+        //     "type": "shell",
+        //     "command": "valgrind --log-file=grindlog --leak-check=full -v --track-origins=yes ./example-dbg",
+        //     "group": {
+        //         "kind": "build",
+        //         "isDefault": false
+        //     }
+        // },
+        // {
+        //     "label": "factory",
+        //     "type": "shell",
+        //     "command": "var clientState = new ClientState(client); clientState.Task = Task.Run(() => ProcessClientAsync(client));",
+        //     "group": {
+        //         "kind": "build",
+        //         "isDefault": false
+        //     }
+        // }
+    ]
+}
+// "command":"time make CXX='ccache mpicxx' -j12 -l6 && ./example-opt --disable-perflog",
+
+
+// Task.Factory.StartNew(() =>
+//         {
+//         while (true) {
+//           Console.WriteLine("Hello!");
+//         }
+//       }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);

@@ -1,0 +1,10 @@
+nxl   nxh   nyl   nyh   nzl   nzh___
+     1     6     1     6     1     6
+
+nxl - the extraction is made from the pixel nxl in x direction
+nxh - the extraction is ended at the pixels nxh in x direction
+nyl - the extraction is made from the pixel nyl in y direction
+nyh - the extraction is ended at the pixels nyh in y direction
+nzl - the extraction is made from the pixel nzl in z direction
+nzh - the extraction is ended at the pixels nzh in z direction
+

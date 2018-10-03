@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "$PWD",
+                "libmesh/contrib/**",
+                "libmesh/contrib/nanoflann/",
+                "${INCLUDE}",
+                "${LIBMESH}/**",
+                "${LIBMESH}/include/",
+                "${LIBMESH}/include/**",
+                "/usr/include/**",
+                "/usr/include/eigen3",
+                "${HOME}/.local/petsc/**",
+                "/usr/x86_64-linux-gnu/include",
+                "/usr/include",
+                "/usr/x86_64-linux-gnu",
+                "/usr/include/thrust/detail/mpl"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/ifort",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

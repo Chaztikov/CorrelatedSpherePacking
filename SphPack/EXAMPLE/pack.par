@@ -1,0 +1,22 @@
+                     Porosity of the sample:   0.34911E+00
+                              Sample length:   0.29389E+01
+                               Sample width:   0.29389E+01
+                               Sample depth:   0.29013E+01
+                                Cell length:   0.32654E+00
+                        Number of particles:          2171
+       Number of cells in each x and y axis:             9
+                  Number of cells in z axis:             9
+                Periodical BC (Yes=1, No=0):             1
+                           Average of ln(r):  -0.21202E+01
+                             S.D. for ln(r):   0.55000E-01
+                        Maximum samplable r:   0.13237E+00
+                        Minimum samplable r:   0.33056E-01
+                        Average samplable r:   0.12001E+00
+                Small particle radius limit:   0.50000E-01
+                        Number of iteration:         37199
+                             Porosity index:             4
+              Number of particles extracted:          1003
+        Starting cell (in x or y direction):             1
+          Ending cell (in x or y direction):             7
+             Starting cell (in z direction):             1
+               Ending cell (in z direction):             7

@@ -1,0 +1,11 @@
+nclow  nchigh_
+      3      6
+nflag  layer  nthpix_
+      0      3      1         //nflag = 2 means output 2d pore image 
+		
+nclow - extraction is made from cell nclow in each direction
+nchigh - the end cell of the extraction
+nflag - 2 means output of 2D slice
+		  0 means no output of 2D slice
+layer - 2D extraction is made from the vertical cell 'layer'
+nthpix - 2D extraction is made from the nthpix at the cell 'layer'

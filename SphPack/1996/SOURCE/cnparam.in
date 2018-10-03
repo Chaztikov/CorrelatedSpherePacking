@@ -1,0 +1,5 @@
+Input parameters for computation of CN distributions:
+nc     ncz    ncnz   eps__________
+      9      9      9        1.e-3 
+nsignal    ncontact_l ncontact_h_
+          1          1         21

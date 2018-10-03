@@ -1,0 +1,41 @@
+#
+#              PLOT1 - Display a GSLIB Postscript Plot
+#
+if($#argv < 2) then
+	echo "  "
+	echo "    This command requires two arguments: "
+	echo "      1 - the plot file, "
+	echo "      2 - An output file name"
+	echo "  "
+	exit
+endif
+#
+# HEADER:
+#
+cat <<"END">$2
+%!
+%
+% Standard GSLIB definitions used:
+%
+%
+/m {moveto} def /l {lineto} def /r {rlineto} def /s {stroke} def
+/n {newpath} def /c {closepath} def /ltext{show} def
+/rtext{ dup stringwidth pop -1 div 0  rmoveto show } def
+/ctext{ dup stringwidth pop -2 div 0  rmoveto show } def
+/bullet{ 6 0 360 arc c fill } def
+%-----------------------------------------------------------------------
+ 108  234 translate
+ 1.5 1.5 scale
+"END"
+#
+# PLOT FILE:
+#
+cat $1 >> $2
+#
+# BOTTOM:
+#
+cat <<"END" >> $2
+0.66667 0.66667 scale
+-108 -234 translate
+showpage
+"END"

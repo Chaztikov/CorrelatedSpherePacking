@@ -1,0 +1,12 @@
+                    Parameters for BACKTR
+                    *********************
+ 
+START OF PARAMETERS:
+sgsim.out                               \data file
+1                                       \Gaussian variable
+-1.0e21   1.0e21                        \trimming limits
+pfield.dat                              \output file for data
+unif.trn                                \input transformation table
+0.0  1.0                                \minimum and maximum data value
+1    0.0                                \lower tail option/parameter
+1    0.0                                \upper tail option/parameter

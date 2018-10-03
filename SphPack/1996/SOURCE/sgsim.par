@@ -1,0 +1,30 @@
+                     Parameters for SGSIM
+                     ********************
+
+START OF PARAMETERS:
+cluster.dat                             \data file (if no exist, then uncond.)
+1   2   3   2   0                       \column: x,y,z,vr,wt 
+-1.0e21    1.0e21                       \data trimming limits
+0                                       \0=transform the data, 1=don't
+unif.trn                                \  output transformation table
+0.0     1.0                             \  zmin,zmax(tail extrapolation)
+1       0.0                             \  lower tail option, parameter
+1       0.0                             \  upper tail option, parameter
+sgsim.out                               \output File for simulation
+1                                       \debugging level: 0,1,2,3
+sgsim.dbg                               \output File for Debugging
+9837                                    \random number seed (lg. odd #)
+0                                       \kriging type (0=SK, 1=OK)
+1                                       \number of simulations
+10    0.22175     0.4435                 \nx,xmn,xsiz
+10    0.22175     0.4435                 \ny,ymn,ysiz
+10    0.22175     0.4435                 \nz,zmn,zsiz
+0                                       \0=two part search, 1=data-nodes
+0                                       \max per octant(0 -> not used)
+9.0                                    \maximum search radius
+ 0.0  0.0  0.0  1.0  1.0                \sang1,sang2,sang3,sanis1,2
+4   16                                  \min, max data for simulation
+10                                      \number simulated nodes to use
+1    0.0                                \nst, nugget effect
+2    2.0   1.0                          \it,  aa,  cc
+0.0  0.0   0.0  0.1  0.0               \ang1,ang2,ang3,anis1,anis2:

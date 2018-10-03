@@ -1,0 +1,64 @@
+The rnpack has been modified, some parameters and subroutinea have been
+changed to make it easier to use, the last modification was mede on
+December 14.
+
+To make the packing code work properly, the followings have to be met,
+
+1.  The number of spheres in an initial packing should be greater than
+10,000.
+
+2.  To create a purely random packing, three files might be modified,
+	 *  <packin.par>  should be changed to get the right sample size,
+	 particle size distribution, and right final porosity.
+	 *  <paramt> might be modified to make sure that all the arrays are
+	 within the maximum array declarations.
+		  nmax - the maximum number of spheres in the sample
+		  ncmax - the maximum number of cells in each direction
+		  icmax - the maximu number of spheres in each cell
+	 *  <subdim.par> should be changed to extract a part of packing for
+	 pore reconstruction or analysis of pore sample.
+		 
+3.  To build a spatially correlated packing, the following steps should
+be taken,
+    *  to run rnpack to get the domain size information, then to stop
+	 the program.
+	 *  to generate pfield, first to run sgsim to get a random field,
+		 +  <sgsim.par> should be changed to get the right domain size
+		 which should be exactly the same as the rnpack domain size output.
+		 +  <sgsim.inc> might be modified to make sure that all the arrays
+		 are within the maximum array declarations.
+		 +  all the parameters are defined in GSLIB manual.
+    *  to transform the sgsim output <sgsim.out> to uniform p-field, 
+		 +  to run backtr,  input data include <unif.trn> and <sgsim.out>
+		 +  the output <pfield.dat> should be checked to make sure the
+		 uniformity, using histplt; to view it using plot1.
+		 +  histplt and plot1 are the programs in GSLIB.
+    *  to run rnpack again to obtain the final packing with spatial
+	 correlation.
+
+To calcutate the coordination number distribution for a sphere packing,
+
+1.  to modify the cndist.f input subroutines to get the right format.
+
+2.  to modify cnparam and cnparam.in.
+
+3.  to run cndist.
+	 
+To calculate the spatial pore/solid indicator function,
+
+1.  To make sure to have pack.out and pack.par ready.
+
+2.  To modify the <pore.inc> to define the maximum dimension. 
+
+3.  To modify <domain.par> to get the right extraction of the packing.
+
+4.  To run poredat to get <pore.par> and <pore.out>.
+
+To get the right input for AVS visualization of pore samples,
+
+1.  To modify <avsdim.par> to get the position.
+
+2.  To run avspore to get <avspore.out>.
+
+
+The pore network code has been started, it is called network.c.

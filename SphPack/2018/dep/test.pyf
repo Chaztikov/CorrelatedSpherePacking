@@ -1,0 +1,2914 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+subroutine readparam ! in rnpack.f
+    real :: alphar
+    real :: betar
+    real :: cnfint
+    real :: rmin
+    real :: rmax
+    real :: sdnrm
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: intensity
+    integer :: lshift
+    integer :: move
+    integer :: ncor
+    real :: gridln
+    integer :: ngrid
+    integer :: nzgrid
+    integer :: mr
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /dist/ alphar,betar,cnfint,rmin,rmax,sdnrm
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /local/ intensity,lshift,move
+    common /corr/ ncor,gridln,ngrid,nzgrid,mr
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine readparam
+subroutine rndmpack ! in rnpack.f
+    integer :: ncor
+    real :: gridln
+    integer :: ngrid
+    integer :: nzgrid
+    integer :: mr
+    common /corr/ ncor,gridln,ngrid,nzgrid,mr
+end subroutine rndmpack
+subroutine gnrtrdii ! in rnpack.f
+    real :: alphar
+    real :: betar
+    real :: cnfint
+    real :: rmin
+    real :: rmax
+    real :: sdnrm
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    real dimension(100000) :: r
+    real dimension(200,200,200) :: rc
+    real dimension(100000) :: x
+    real dimension(200,200,200) :: xc
+    real dimension(100000) :: y
+    real dimension(200,200,200) :: yc
+    real dimension(100000) :: z
+    real dimension(200,200,200) :: zc
+    integer dimension(200,200) :: icnt
+    common /dist/ alphar,betar,cnfint,rmin,rmax,sdnrm
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /origdim/ r,rc,x,xc,y,yc,z,zc,icnt
+end subroutine gnrtrdii
+subroutine rnorm(mu,sigma,sample,seed) ! in rnpack.f
+    real :: mu
+    real :: sigma
+    real :: sample
+    real :: seed
+end subroutine rnorm
+function rinvnorm(p) ! in rnpack.f
+    real :: p
+    real :: base
+    real dimension(3) :: dnot
+    real :: finity
+    real :: rinvnorm
+    common /mchcom/ base,dnot,finity
+end function rinvnorm
+subroutine gnrtsite ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: npart
+    integer :: npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    real dimension(100000) :: r
+    real dimension(200,200,200) :: rc
+    real dimension(100000) :: x
+    real dimension(200,200,200) :: xc
+    real dimension(100000) :: y
+    real dimension(200,200,200) :: yc
+    real dimension(100000) :: z
+    real dimension(200,200,200) :: zc
+    integer dimension(200,200) :: icnt
+    common /param/ bound,cmptln,dtheta,eps,height,nc,npart,npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /origdim/ r,rc,x,xc,y,yc,z,zc,icnt
+end subroutine gnrtsite
+subroutine gnrtpack ! in rnpack.f
+    real :: alphar
+    real :: betar
+    real :: cnfint
+    real :: rmin
+    real :: rmax
+    real :: sdnrm
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    real dimension(100000) :: r
+    real dimension(200,200,200) :: rc
+    real dimension(100000) :: x
+    real dimension(200,200,200) :: xc
+    real dimension(100000) :: y
+    real dimension(200,200,200) :: yc
+    real dimension(100000) :: z
+    real dimension(200,200,200) :: zc
+    integer dimension(200,200) :: icnt
+    integer :: ncor
+    real :: gridln
+    integer :: ngrid
+    integer :: nzgrid
+    integer :: mr
+    common /dist/ alphar,betar,cnfint,rmin,rmax,sdnrm
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /origdim/ r,rc,x,xc,y,yc,z,zc,icnt
+    common /corr/ ncor,gridln,ngrid,nzgrid,mr
+end subroutine gnrtpack
+subroutine output ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    real dimension(100000) :: r
+    real dimension(200,200,200) :: rc
+    real dimension(100000) :: x
+    real dimension(200,200,200) :: xc
+    real dimension(100000) :: y
+    real dimension(200,200,200) :: yc
+    real dimension(100000) :: z
+    real dimension(200,200,200) :: zc
+    integer dimension(200,200) :: icnt
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /origdim/ r,rc,x,xc,y,yc,z,zc,icnt
+end subroutine output
+subroutine alloctcmpt ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(100000) :: r
+    real dimension(200,200,200) :: rc
+    real dimension(100000) :: x
+    real dimension(200,200,200) :: xc
+    real dimension(100000) :: y
+    real dimension(200,200,200) :: yc
+    real dimension(100000) :: z
+    real dimension(200,200,200) :: zc
+    integer dimension(200,200) :: icnt
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /origdim/ r,rc,x,xc,y,yc,z,zc,icnt
+end subroutine alloctcmpt
+subroutine initialcnt ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(100000) :: r
+    real dimension(200,200,200) :: rc
+    real dimension(100000) :: x
+    real dimension(200,200,200) :: xc
+    real dimension(100000) :: y
+    real dimension(200,200,200) :: yc
+    real dimension(100000) :: z
+    real dimension(200,200,200) :: zc
+    integer dimension(200,200) :: icnt
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /origdim/ r,rc,x,xc,y,yc,z,zc,icnt
+end subroutine initialcnt
+subroutine allocating(i,mz) ! in rnpack.f
+    integer :: i
+    integer :: mz
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(100000) :: r
+    real dimension(200,200,200) :: rc
+    real dimension(100000) :: x
+    real dimension(200,200,200) :: xc
+    real dimension(100000) :: y
+    real dimension(200,200,200) :: yc
+    real dimension(100000) :: z
+    real dimension(200,200,200) :: zc
+    integer dimension(200,200) :: icnt
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /origdim/ r,rc,x,xc,y,yc,z,zc,icnt
+end subroutine allocating
+subroutine sort ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(100000) :: r
+    real dimension(200,200,200) :: rc
+    real dimension(100000) :: x
+    real dimension(200,200,200) :: xc
+    real dimension(100000) :: y
+    real dimension(200,200,200) :: yc
+    real dimension(100000) :: z
+    real dimension(200,200,200) :: zc
+    integer dimension(200,200) :: icnt
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /origdim/ r,rc,x,xc,y,yc,z,zc,icnt
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine sort
+subroutine initialsort(lz) ! in rnpack.f
+    integer :: lz
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(200,200,200,200) :: rcst
+    real dimension(200,200,200,200) :: xcst
+    real dimension(200,200,200,200) :: ycst
+    real dimension(200,200,200,200) :: zcst
+    integer dimension(200,200,200) :: icntst
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /sortdim/ rcst,xcst,ycst,zcst,icntst
+end subroutine initialsort
+subroutine findzmin(ic1,ncpart1) ! in rnpack.f
+    integer :: ic1
+    integer :: ncpart1
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(100000) :: r
+    real dimension(200,200,200) :: rc
+    real dimension(100000) :: x
+    real dimension(200,200,200) :: xc
+    real dimension(100000) :: y
+    real dimension(200,200,200) :: yc
+    real dimension(100000) :: z
+    real dimension(200,200,200) :: zc
+    integer dimension(200,200) :: icnt
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /origdim/ r,rc,x,xc,y,yc,z,zc,icnt
+end subroutine findzmin
+subroutine reorder(ic1,ncpart1) ! in rnpack.f
+    integer :: ic1
+    integer :: ncpart1
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(100000) :: r
+    real dimension(200,200,200) :: rc
+    real dimension(100000) :: x
+    real dimension(200,200,200) :: xc
+    real dimension(100000) :: y
+    real dimension(200,200,200) :: yc
+    real dimension(100000) :: z
+    real dimension(200,200,200) :: zc
+    integer dimension(200,200) :: icnt
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /origdim/ r,rc,x,xc,y,yc,z,zc,icnt
+end subroutine reorder
+subroutine sorting(lz) ! in rnpack.f
+    integer :: lz
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: intensity
+    integer :: lshift
+    integer :: move
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /local/ intensity,lshift,move
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine sorting
+subroutine findxyz ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    integer :: mrolltmp
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+    common /tmp/ mrolltmp
+end subroutine findxyz
+subroutine shift1(i1xx,jyy,kzz,mflag) ! in rnpack.f
+    integer :: i1xx
+    integer :: jyy
+    integer :: kzz
+    integer :: mflag
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine shift1
+subroutine shift2(i1xx,jyy,kzz,mflag) ! in rnpack.f
+    integer :: i1xx
+    integer :: jyy
+    integer :: kzz
+    integer :: mflag
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine shift2
+subroutine shift3(i1xx,jyy,kzz,mflag) ! in rnpack.f
+    integer :: i1xx
+    integer :: jyy
+    integer :: kzz
+    integer :: mflag
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine shift3
+subroutine shift4(i1xx,jyy,kzz,mflag) ! in rnpack.f
+    integer :: i1xx
+    integer :: jyy
+    integer :: kzz
+    integer :: mflag
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine shift4
+subroutine chkovlp(mflag) ! in rnpack.f
+    integer :: mflag
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine chkovlp
+subroutine findzmax(mflag) ! in rnpack.f
+    integer :: mflag
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(200,200,200,200) :: rcst
+    real dimension(200,200,200,200) :: xcst
+    real dimension(200,200,200,200) :: ycst
+    real dimension(200,200,200,200) :: zcst
+    integer dimension(200,200,200) :: icntst
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /sortdim/ rcst,xcst,ycst,zcst,icntst
+end subroutine findzmax
+subroutine roll1loc ! in rnpack.f
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(200,200,200,200) :: rcst
+    real dimension(200,200,200,200) :: xcst
+    real dimension(200,200,200,200) :: ycst
+    real dimension(200,200,200,200) :: zcst
+    integer dimension(200,200,200) :: icntst
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /sortdim/ rcst,xcst,ycst,zcst,icntst
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine roll1loc
+subroutine calr1loc(icst) ! in rnpack.f
+    integer :: icst
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(200,200,200,200) :: rcst
+    real dimension(200,200,200,200) :: xcst
+    real dimension(200,200,200,200) :: ycst
+    real dimension(200,200,200,200) :: zcst
+    integer dimension(200,200,200) :: icntst
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /sortdim/ rcst,xcst,ycst,zcst,icntst
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine calr1loc
+subroutine roll2loc ! in rnpack.f
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(200,200,200,200) :: rcst
+    real dimension(200,200,200,200) :: xcst
+    real dimension(200,200,200,200) :: ycst
+    real dimension(200,200,200,200) :: zcst
+    integer dimension(200,200,200) :: icntst
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /sortdim/ rcst,xcst,ycst,zcst,icntst
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine roll2loc
+subroutine calr2loc(icst) ! in rnpack.f
+    integer :: icst
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(200,200,200,200) :: rcst
+    real dimension(200,200,200,200) :: xcst
+    real dimension(200,200,200,200) :: ycst
+    real dimension(200,200,200,200) :: zcst
+    integer dimension(200,200,200) :: icntst
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    integer :: mrolltmp
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /sortdim/ rcst,xcst,ycst,zcst,icntst
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+    common /tmp/ mrolltmp
+end subroutine calr2loc
+subroutine register_bn ! in rnpack.f
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(200,200,200,200) :: rcst
+    real dimension(200,200,200,200) :: xcst
+    real dimension(200,200,200,200) :: ycst
+    real dimension(200,200,200,200) :: zcst
+    integer dimension(200,200,200) :: icntst
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /sortdim/ rcst,xcst,ycst,zcst,icntst
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine register_bn
+subroutine shiftdown ! in rnpack.f
+    real :: alphar
+    real :: betar
+    real :: cnfint
+    real :: rmin
+    real :: rmax
+    real :: sdnrm
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /dist/ alphar,betar,cnfint,rmin,rmax,sdnrm
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine shiftdown
+subroutine findlocbc(lz) ! in rnpack.f
+    integer :: lz
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine findlocbc
+subroutine rollitbc ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    integer :: mark
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+    common /flag/ mark
+end subroutine rollitbc
+subroutine chkbcmpt(p1,lp1) ! in rnpack.f
+    real :: p1
+    integer :: lp1
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+end subroutine chkbcmpt
+subroutine findxyzbc(p1,lp1) ! in rnpack.f
+    real :: p1
+    integer :: lp1
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine findxyzbc
+subroutine bcroll1(p1,lp1,lpp,kzp) ! in rnpack.f
+    real :: p1
+    integer :: lp1
+    integer :: lpp
+    integer :: kzp
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine bcroll1
+subroutine bcroll2(p1,lp1,lpp,kzp) ! in rnpack.f
+    real :: p1
+    integer :: lp1
+    integer :: lpp
+    integer :: kzp
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine bcroll2
+subroutine bcroll3(p1,lp1,lpp,kzp) ! in rnpack.f
+    real :: p1
+    integer :: lp1
+    integer :: lpp
+    integer :: kzp
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine bcroll3
+subroutine bcroll4(p1,lp1,lpp,kzp) ! in rnpack.f
+    real :: p1
+    integer :: lp1
+    integer :: lpp
+    integer :: kzp
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine bcroll4
+subroutine chkbcovlp(p1,lp1,lp) ! in rnpack.f
+    real :: p1
+    integer :: lp1
+    integer :: lp
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(200,200,200,200) :: rcst
+    real dimension(200,200,200,200) :: xcst
+    real dimension(200,200,200,200) :: ycst
+    real dimension(200,200,200,200) :: zcst
+    integer dimension(200,200,200) :: icntst
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    integer :: mark
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /sortdim/ rcst,xcst,ycst,zcst,icntst
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+    common /flag/ mark
+end subroutine chkbcovlp
+subroutine calrlocbc(icst) ! in rnpack.f
+    integer :: icst
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(200,200,200,200) :: rcst
+    real dimension(200,200,200,200) :: xcst
+    real dimension(200,200,200,200) :: ycst
+    real dimension(200,200,200,200) :: zcst
+    integer dimension(200,200,200) :: icntst
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /sortdim/ rcst,xcst,ycst,zcst,icntst
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine calrlocbc
+subroutine relocatebc ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    integer :: lsign
+    integer :: mark
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+    common /sign/ lsign
+    common /flag/ mark
+end subroutine relocatebc
+subroutine findloc(lz) ! in rnpack.f
+    integer :: lz
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: intensity
+    integer :: lshift
+    integer :: move
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /local/ intensity,lshift,move
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine findloc
+subroutine rollon1 ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine rollon1
+subroutine chkcmpt ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+end subroutine chkcmpt
+subroutine settlerlmt ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine settlerlmt
+subroutine calrlmtloc(alpha,alpha2,alpha3) ! in rnpack.f
+    real :: alpha
+    real :: alpha2
+    real :: alpha3
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+end subroutine calrlmtloc
+subroutine rollon2 ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+end subroutine rollon2
+subroutine vertroll(x1max,y1max,z1max) ! in rnpack.f
+    real :: x1max
+    real :: y1max
+    real :: z1max
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine vertroll
+subroutine calrloc(x1max,y1max,z1max,x0,y0,z0,rtrack) ! in rnpack.f
+    real :: x1max
+    real :: y1max
+    real :: z1max
+    real :: x0
+    real :: y0
+    real :: z0
+    real :: rtrack
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real :: x11
+    real :: x12
+    real :: x13
+    real :: x11max
+    real :: y11
+    real :: y12
+    real :: y13
+    real :: y11               z11
+    real :: z12
+    real :: z11max
+    real :: rxy
+    real :: sinea
+    real :: cosinea
+    real :: sineb
+    real :: cosineb
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /data1/ x11,x12,x13,x11max,y11,y12,y13,y11               z11,z12,z11max,rxy,sinea,cosinea,sineb,cosineb
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine calrloc
+subroutine transfwd(x1max,y1max,z1max,x0,y0,z0,rtrack) ! in rnpack.f
+    real :: x1max
+    real :: y1max
+    real :: z1max
+    real :: x0
+    real :: y0
+    real :: z0
+    real :: rtrack
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real :: x11
+    real :: x12
+    real :: x13
+    real :: x11max
+    real :: y11
+    real :: y12
+    real :: y13
+    real :: y11               z11
+    real :: z12
+    real :: z11max
+    real :: rxy
+    real :: sinea
+    real :: cosinea
+    real :: sineb
+    real :: cosineb
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /data1/ x11,x12,x13,x11max,y11,y12,y13,y11               z11,z12,z11max,rxy,sinea,cosinea,sineb,cosineb
+end subroutine transfwd
+subroutine transbwd(x0,y0,z0) ! in rnpack.f
+    real :: x0
+    real :: y0
+    real :: z0
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real :: x11
+    real :: x12
+    real :: x13
+    real :: x11max
+    real :: y11
+    real :: y12
+    real :: y13
+    real :: y11               z11
+    real :: z12
+    real :: z11max
+    real :: rxy
+    real :: sinea
+    real :: cosinea
+    real :: sineb
+    real :: cosineb
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /data1/ x11,x12,x13,x11max,y11,y12,y13,y11               z11,z12,z11max,rxy,sinea,cosinea,sineb,cosineb
+end subroutine transbwd
+subroutine chkcond ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine chkcond
+subroutine tmprec ! in rnpack.f
+    integer :: intensity
+    integer :: lshift
+    integer :: move
+    common /local/ intensity,lshift,move
+end subroutine tmprec
+subroutine localshift ! in rnpack.f
+    real :: alphar
+    real :: betar
+    real :: cnfint
+    real :: rmin
+    real :: rmax
+    real :: sdnrm
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: intensity
+    integer :: lshift
+    integer :: move
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    real dimension(30) :: xshift
+    real dimension(30) :: yshift
+    real dimension(30) :: zshift
+    integer dimension(30) :: i1xshift
+    integer dimension(30) :: jyshift
+    integer dimension(30) :: kzshift
+    integer dimension(30) :: indx
+    common /dist/ alphar,betar,cnfint,rmin,rmax,sdnrm
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /local/ intensity,lshift,move
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+    common /shift/ xshift,yshift,zshift,i1xshift,jyshift,kzshift,indx
+end subroutine localshift
+subroutine choosesite ! in rnpack.f
+    integer :: intensity
+    integer :: lshift
+    integer :: move
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    real dimension(30) :: xshift
+    real dimension(30) :: yshift
+    real dimension(30) :: zshift
+    integer dimension(30) :: i1xsh               jyshift
+    integer dimension(30) :: kzshift
+    integer dimension(30) :: indx
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /local/ intensity,lshift,move
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /shift/ xshift,yshift,zshift,i1xsh               jyshift,kzshift,indx
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine choosesite
+subroutine relocate ! in rnpack.f
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: icst2
+    integer :: icst3
+    integer :: icst4
+    integer :: i1x
+    integer :: i1x1
+    integer :: i1x2
+    integer :: i1x3              jy
+    integer :: jy1
+    integer :: jy2
+    integer :: jy3
+    integer :: jy4
+    integer :: kz
+    integer :: kz1
+    integer :: kz2
+    integer :: kz3
+    integer :: kz4
+    real :: r1
+    real :: r2
+    real :: r3
+    real :: r4
+    real :: x1
+    real :: x2
+    real :: x3
+    real :: x4
+    real :: y1
+    real :: y2
+    real :: y3
+    real :: y4
+    real :: z1
+    real :: z2
+    real :: z3
+    real :: z4
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    integer :: lsign
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /data/ icst2,icst3,icst4,i1x,i1x1,i1x2,i1x3              jy,jy1,jy2,jy3,jy4,kz,kz1,kz2,kz3,kz4,r1,r2,r3,r4,x1,x2,x3,x4,y1,y2,y3,y4,z1,z2,z3,z4
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+    common /sign/ lsign
+end subroutine relocate
+subroutine finalset ! in rnpack.f
+    real :: alphar
+    real :: betar
+    real :: cnfint
+    real :: rmin
+    real :: rmax
+    real :: sdnrm
+    real :: bound
+    real :: cmptln
+    real :: dtheta
+    real :: eps
+    real :: height
+    integer :: nc
+    integer :: n               npart_kz
+    real :: pi
+    real :: porosity
+    real :: rlmt
+    integer :: nrndsd
+    real :: size_bn
+    real :: theta
+    real :: tolrnce
+    integer :: ncz
+    integer :: intensity
+    integer :: lshift
+    integer :: move
+    real dimension(100000) :: r
+    real dimension(200,200,200) :: rc
+    real dimension(100000) :: x
+    real dimension(200,200,200) :: xc
+    real dimension(100000) :: y
+    real dimension(200,200,200) :: yc
+    real dimension(100000) :: z
+    real dimension(200,200,200) :: zc
+    integer dimension(200,200) :: icnt
+    real dimension(200,200,200,200) :: rcst
+    real dimension(200,200,200,200) :: xcst
+    real dimension(200,200,200,200) :: ycst
+    real dimension(200,200,200,200) :: zcst
+    integer dimension(200,200,200) :: icntst
+    integer :: mcount
+    integer :: movlpcond
+    integer :: mpbc
+    integer :: mroll
+    integer :: nrec
+    integer :: ntshift
+    integer :: niterate
+    common /dist/ alphar,betar,cnfint,rmin,rmax,sdnrm
+    common /param/ bound,cmptln,dtheta,eps,height,nc,n               npart_kz,pi,porosity,rlmt,nrndsd,size_bn,theta,tolrnce,ncz
+    common /local/ intensity,lshift,move
+    common /origdim/ r,rc,x,xc,y,yc,z,zc,icnt
+    common /sortdim/ rcst,xcst,ycst,zcst,icntst
+    common /index/ mcount,movlpcond,mpbc,mroll,nrec,ntshift,niterate
+end subroutine finalset
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/
