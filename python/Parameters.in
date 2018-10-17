@@ -20,7 +20,7 @@ filename='spheres'
 radii_dist='lognormal'
 
 #System Size
-nsamples=int(1e4)*5
+nsamples=int(1e4)
 target_porosity=0.30
 nbins=int(100)
 
@@ -39,7 +39,7 @@ show_hist=int(0)
 
 #Force-based Parameters (TBD)
 set_dt=0.01
-blfac=0.01
+blfac=0.01 #boundary layer factor
 damping=1
 tstep=0
 tprint=100

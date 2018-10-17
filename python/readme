@@ -1,0 +1,18 @@
+run packing by:
+python3 run_packing.py
+
+optional arguments:
+python3 run_packing.py -f "different_input_paramaters.in" -s 42 -g 1 -n 10 -p 0.4
+in thius example:
+-f is the filename flag for the specification of the input parametetsr file
+-s is the seed flag, here 42 is the seed
+-g is the "periodic" topology flag
+-p is the target_porosity flag
+
+these override the vbalues in Parameters.in 
+
+simplest form of output can be loaded by
+numpy.loadtxt('packing.txt')
+
+
+

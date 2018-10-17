@@ -15,7 +15,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import pickle
 import gzip
 import networkx as netx
-
+import getopt
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -134,34 +134,94 @@ def where_boundary_intersect(parameters, pts,radii_scaled):
     return cond, cond.sum()
 
 
-def get_reflected_pts(pts,radii_scaled,xmin,xmax):
+def get_reflected_pts(pts,idx_points, boundary, boundary_indices, boundary_radii, radii_scaled,xmin,xmax):
     sz0 = pts.shape[0]
     ptsr = pts**2 - radii_scaled[:,None]**2 
+    #indices of spheres crossing lower boundary
     ip1 = np.any(ptsr < xmin,axis=1)
+    #image spheres
     pts1 = np.mod(ptsr[ip1],xmax-xmin)
-    pts = np.vstack((pts,pts1))
+
+    # boundary = np.vstack((boundary, pts1.copy()))
+    # boundary_indices = np.vstack((boundary_indices, ip1.copy()));
+    # boundary_radii = np.vstack((boundary_radii, radii_scaled[ip1]))
+
+    boundary.extend(pts1.tolist())
+    boundary_indices.extend(ip1.tolist())
+    boundary_radii.extend(radii_scaled[ip1].tolist())
+
+    #tack on image spheres
+    pts = np.vstack((pts,pts1.copy()))
+    #tack on image indices
+    if(len(ip1)>0):
+        print(idx_points.shape)
+        idx_points = np.hstack((idx_points,ip1[np.where(ip1)[0]]))
+    #append image sphere radii
     radii_scaled = np.concatenate((radii_scaled,radii_scaled[ip1]))
 
+    #DO IT AGAIN FOR THE UPPER BOUNDARIES
     ptsr = pts**2 + radii_scaled[:,None]**2
     ip1 = np.any(ptsr > xmax,axis=1)
     pts1 = np.mod(ptsr[ip1],xmax-xmin)
-    pts = np.vstack((pts,pts1))
+
+    # boundary = np.vstack((boundary, pts1.copy()))
+    # boundary_indices = np.vstack((boundary_indices, ip1.copy()));
+    # boundary_radii = np.vstack((boundary_radii, radii_scaled[ip1]))
+
+    boundary.extend(pts1.tolist())
+    boundary_indices.extend(ip1.tolist())
+    boundary_radii.extend(radii_scaled[ip1].tolist())
+
+
+    pts = np.vstack((pts,pts1.copy()))
+    if(len(ip1)>0):
+        print(idx_points.shape)
+        idx_points = np.hstack((idx_points,ip1[np.where(ip1)[0]]))
     radii_scaled = np.concatenate((radii_scaled,radii_scaled[ip1]))
     sz = np.unique( pts ,axis=0).shape[0]
     print(sz,sz0)
     flag = 1 if( sz==sz0) else 0
         
-    return pts, radii_scaled, flag
+    return pts, radii_scaled, idx_points, boundary, boundary_indices, boundary_radii, flag
 
 
-def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', seed_increment = 0):
+def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', seed_increment = 0, seed=None,periodic_geometry=None,nsamples=None,target_porosity=None):
     parameters = read_input_parameters(input_parameters_filename)
     reinit_flag=0
 
     '''debugging, ignore this'''
     print(','.join(np.array([name for name in parameters.keys()])))
 
+    try:
+        if(seed is not None):
+            parameters['seed'] = seed
+    except Exception as e:
+        print('no seed specified')
+
+    try:
+        if(periodic_geometry is not None):
+            parameters['periodic_geometry'] = periodic_geometry
+    except Exception as e:
+        print('no periodicv geometry specified')
+
+    try:
+        if(nsamples is not None):
+            parameters['nsamples'] = nsamples
+    except Exception as e:
+        print('no nsampels specified')
+
+    try:
+        if(target_porosity is not None):
+            parameters['target_porosity'] = target_porosity
+    except Exception as e:
+        print('no porosity specified')
+
+    
+    
+    
+
     '''increment in case of reinitialization'''
+    print(" seed_increment ", seed_increment, " type ", type(seed_increment))
     parameters['seed']+=seed_increment
 
     '''use input parameters'''
@@ -222,7 +282,7 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', see
 
 
 
-
+    #TBD
     '''sample isotropic gaussian correlation'''
     Cnorm = RandomState.multivariate_normal(Cmu,Csig,nsamples)#,[nsamples,ndimensions])
 
@@ -265,16 +325,25 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', see
 
     '''BC, EQ separation, pore throat size, collision distances, PD'''
     boundary_layer = [blfac, xmax *(1- blfac)]
+    print("BOUINDARY LAYER" , boundary_layer)
     iboundary = np.any(((pts<boundary_layer[0]).astype(int)+(pts>boundary_layer[1]).astype(int)) , axis=1)
-    iinterior = np.all((pts>boundary_layer[0]).astype(int)*(pts<boundary_layer[1]).astype(int),axis=1)
-    print(iboundary.shape,iinterior.shape)
-    iinterior.sum(),iboundary.sum()
+    iinterior = np.all((pts>boundary_layer[0]).astype(int) * (pts<boundary_layer[1]).astype(int),axis=1)
+    print("IBOUNDARY " , iboundary)
+    print("IINTERIOR " , iinterior)
+    print('\n \n \n ' , " NUMBER OF BOUNDARY SPHERES ", iboundary.sum(), " TOTAL CONSIDERED ", iboundary.shape, '\n \n \n ' , "NUMBER OF INTERIOR SPHERES", iinterior.sum(), " TOTAL CONSIDERED ",  iinterior.shape, '\n \n \n ')
+    # ,iboundary.sum()
 
-    #formerly, scaled_radii was defined another way
+
+
+    #TBD
+    #BELOW IS FORF RFORCE BASED ALGORUTHM
+    '''
+    #formerly, scaled_radii was defined another way, so this should not be necessary
     scaled_radii = radii_scaled.copy()
     scaled_radius_mu = radius_mu_scaled.copy()
 
     num_inclusions_per_dim = int((nsamples)**(1/ndimensions))
+    print(" num_inclusions_per_dim ", num_inclusions_per_dim)
     if(find_all_neighbors==True):
         eq_length_factor = (scaled_radii[neighbors[:,0:1]] + scaled_radii[neighbors[:,1:]])
     else:
@@ -284,6 +353,7 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', see
     porespace_per_dim = num_inclusions_per_dim * medimean_eq_length
     porespace_per_particle  = (porespace_per_dim / (num_inclusions_per_dim - 1))/2
     scaled_radius_diam = scaled_radius_mu*2
+
     #set spacing
     collision_length_factor = eq_length_factor.copy()# - pore_space_per_particle /2
     eq_length_factor = eq_length_factor + pore_space_per_particle /2
@@ -291,18 +361,20 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', see
     # nneighbors = neighbors.shape[1]
     tsteps = np.arange(0,tstepmax)
 
+    #TBD
     zmin = ymin = xmin
     zmax = ymax = xmax
 
+    #TBD
     (pts.T[-1]-np.mod(pts.T[-1],xmax)).max()
     # pts.T[-1][ (pts.T[-1] - radii.T)>xmax]
     # (p - radii.T)>xmax
     (pts.T[-1]+radii_scaled > xmax).sum()
     ((pts**2).sum(axis=1)+radii_scaled**2 > xmax**2).sum()
+    '''
 
-
-
-
+    #TBD
+    #THIS IS NOT USED
     cond, conds = where_boundary_intersect(parameters,pts,radii_scaled)
     conds
     # (np.linalg.norm(pts,2,axis=1)+radii_scaled > xmax).sum()
@@ -310,12 +382,7 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', see
 
 
 
-    flag=0
-    # while flag==0:
-    pts, radii_scaled,flag = get_reflected_pts(pts,radii_scaled,xmin,xmax)
-    print(radii_scaled.shape)
-    nsamples = radii_scaled.shape[0]
-    assert(radii_scaled.shape[0] == pts.shape[0])
+
 
 
     ''' Detect Collisions and Translate Spheres '''
@@ -353,76 +420,144 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', see
 
     registered = np.array(registered)
 
+
+
+
+    print("STORE BOUNDARY SPHERE DATA")
+    indices_boundary = np.where(iboundary)
+    print("STORE INTERIOR SPHERE DATA")
+    indices_interior = np.where(iinterior)
+
+    interior_points = pts[indices_interior]
+    boundary_points = pts[indices_boundary]
+
+    print("SET POINT IDs (to keep track of boundary image spheres)")
+    idx_points = np.arange(0,len(registered))
+
+    print("COPY BOUNDARY POINTS TO IMAGE SPHERES ACROSS PERIODIC BOUNDARIES")
+
+    print("NUM POINTS BEFORE BOUNDARY IMAGE COPY" , pts.shape)
+    flag=0
+    # while flag==0:
+    # pts, radii_scaled,idx_points, flag = get_reflected_pts(pts,idx_points, radii_scaled,xmin,xmax)
+
+
+    boundary, boundary_indices, boundary_radii = [], [], [] #np.array([]), np.array([]), np.array([])
+    pts, radii_scaled, idx_points, boundary, boundary_indices, boundary_radii, flag = get_reflected_pts(pts,idx_points, boundary, boundary_indices, boundary_radii, radii_scaled,xmin,xmax)
+    print(radii_scaled.shape)
+    nsamples = radii_scaled.shape[0]
+    assert(radii_scaled.shape[0] == pts.shape[0])
+    print("NUM POINTS AFTER " , pts.shape)
+
     pvolumes = radii_scaled**3 * 4 * np.pi / 3 if ndimensions==3 else radii_scaled**2 * np.pi 
 
-    return parameters, radii_scaled, registered, unregistered, pts, pvolumes
+    return parameters, radii_scaled, registered, unregistered, pts, pvolumes, idx_points, boundary, boundary_indices, boundary_radii
 
 
 
-
-
-
-
-
-    
 def main():
-	# print command line arguments
-	for arg in sys.argv[1:]:
-		print(arg)
-	try:
-		parameters, radii_scaled, registered, unregistered, pts, pvolumes = Run_correlated_Sphere_Packing(sys.argv[1:])
-	except Exception as e:
-		parameters, radii_scaled, registered, unregistered, pts, pvolumes = Run_Correlated_Sphere_Packing('Parameters.in')
+    argumentList=sys.argv[1:]
+    unixOptions = "f:s:g:n:p:"  
+    gnuOptions = ["seed", "periodic_geometry", "nsamples","target_porosity"]
+    print(" \n \n \n ")
 
-	seed=parameters['seed']
-	nsamples = parameters['nsamples']
-	ndimensions = parameters['ndimensions']
+    # seed
 
-	print('seed', seed)
-	save_filename = 'test_packing'
+    try:  
+        arguments, values = getopt.getopt(argumentList, unixOptions)
+    except getopt.error as e:  
+        print(str(e))
+        sys.exit(2)
 
+    # print("arguments", arguments)
+    # print("values", values)
 
-
-
-	psize = ((pvolumes-pvolumes.min()))
-	psize = psize/psize.max()
-	psize = psize * nsamples**(1/ndimensions) #/16
+    seed,periodic_geometry,nsamples,target_porosity = None,None,None,None
+    seed_increment=0
 
 
+    for currentArgument, currentValue in arguments:  
+        if currentArgument in ("-f", "--file"):
+            print ("input_parameters_filename ", currentValue)
+            input_parameters_filename = currentValue
+        else:
+            input_parameters_filename = "Parameters.in"
 
-	fig = plt.figure(figsize=(16,16))
-	ax = fig.add_subplot(111, projection='3d')
-	X,Y,Z = pts[:,0],pts[:,1],pts[:,2]
-	cube = ax.scatter(X, Y, Z, zdir='z', s=psize, c=psize,alpha=0.4)
-	cbar = fig.colorbar(cube, shrink=0.6, aspect=5)
-	plt.savefig(save_filename+'_3d.png',dpi=200)
-	plt.show()
+        if currentArgument in ("-s", "--seed","--randomstate"):
+            print ("seed ", currentValue)
+            seed = int(currentValue)
+        if currentArgument in ("-g", "--periodic_geometry"):
+            print ("periodic_geometry ", currentValue)
+            periodic_geometry = bool(currentValue)
+        if currentArgument in ("-n", "--nsamples","--nspheres"):
+            print ("nspheres ", currentValue)
+            nsamples = int(currentValue)
+        if currentArgument in ("-p", "--porosity","--target_porosity"):
+            print ("target_porosity ", currentValue)
+            target_porosity = float(currentValue)
+
+    print(" \n \n \n ")
+
+    # try:
+    # 	parameters, radii_scaled, registered, unregistered, pts, pvolumes = Run_correlated_Sphere_Packing(input_parameters_filename, seed_increment, seed,periodic_geometry,nsamples,target_porosity)
+    # except Exception as e:
+    parameters, radii_scaled, registered, unregistered, pts, pvolumes, idx_points, boundary, boundary_indices, boundary_radii = Run_Correlated_Sphere_Packing('Parameters.in', seed_increment, seed,periodic_geometry,nsamples,target_porosity)
+
+    print(idx_points.shape, pts.shape, radii_scaled.shape)
+    stacked_data = np.vstack((idx_points[:], pts[:,0], pts[:,1], pts[:,2], radii_scaled[:]))
+    np.savetxt("packing.txt", stacked_data, header="ID x y z r")
+
+    seed=parameters['seed']
+    nsamples = parameters['nsamples']
+    ndimensions = parameters['ndimensions']
+
+    print('seed', seed)
+    save_filename = 'test_packing'
 
 
 
-	# len(),nsamples
-	plt.figure(figsize=(16,16))
-	plt.scatter(pts[:,0],pts[:,1],s=psize,c=psize,alpha=0.6)
-	plt.colorbar()
-	plt.savefig(save_filename+'_.png',dpi=200)
-	plt.show()
+
+    psize = ((pvolumes-pvolumes.min()))
+    psize = psize/psize.max()
+    psize = psize * nsamples**(1/ndimensions) #/16
 
 
-	# plt.figure(figsize=(16,8))
-	# plt.plot(t_list,'.',alpha=0.4,ms=4);
-	# plt.ylabel('Time Elapsed Per Iteration ')
-	# plt.xlabel('Iteration (Sequential Addition)')
-	# plt.savefig(filename+'_tiame.png',dpi=200)
-	# plt.show()
 
-	# savedict = {'points':pts,
-	#            'radii_scaled':radii_scaled,
-	#            'target_porosity':target_porosity,
-	#             'boundary':boundary
-	#            }
-	# filename = 'uncorr_pack_dim_'+str(ndimensions)+'_nparticles_'+str(nsamples)
-	# with gzip.open(filename + '_.pkl','wb') as f:
-	#     pickle.dump(savedict,f)
+    fig = plt.figure(figsize=(16,16))
+    ax = fig.add_subplot(111, projection='3d')
+    X,Y,Z = pts[:,0],pts[:,1],pts[:,2]
+    cube = ax.scatter(X, Y, Z, zdir='z', s=psize, c=psize,alpha=0.4)
+    cbar = fig.colorbar(cube, shrink=0.6, aspect=5)
+    plt.savefig(save_filename+'_3d.png',dpi=200)
+    # plt.show()
+
+
+
+    # len(),nsamples
+    plt.figure(figsize=(16,16))
+    plt.scatter(pts[:,0],pts[:,1],s=psize,c=psize,alpha=0.6)
+    plt.colorbar()
+    plt.savefig(save_filename+'_.png',dpi=200)
+    # plt.show()
+
+
+    # plt.figure(figsize=(16,8))
+    # plt.plot(t_list,'.',alpha=0.4,ms=4);
+    # plt.ylabel('Time Elapsed Per Iteration ')
+    # plt.xlabel('Iteration (Sequential Addition)')
+    # plt.savefig(filename+'_tiame.png',dpi=200)
+    # plt.show()
+
+    savedict = {'points':pts,
+               'radii_scaled':radii_scaled,
+               'target_porosity':target_porosity,
+                'boundary':boundary,
+                'boundary_indices':boundary_indices, 
+                'boundary_radii':boundary_radii
+               }
+    filename = 'uncorr_pack_dim_'+str(ndimensions)+'_nparticles_'+str(nsamples)
+    with gzip.open(filename + '_.pkl','wb') as f:
+        pickle.dump(savedict,f)
 
 
 
