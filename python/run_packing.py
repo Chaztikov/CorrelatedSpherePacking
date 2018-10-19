@@ -504,8 +504,8 @@ def main():
     parameters, radii_scaled, registered, unregistered, pts, pvolumes, idx_points, boundary, boundary_indices, boundary_radii = Run_Correlated_Sphere_Packing('Parameters.in', seed_increment, seed,periodic_geometry,nsamples,target_porosity)
 
     print(idx_points.shape, pts.shape, radii_scaled.shape)
-    stacked_data = np.vstack((idx_points[:], pts[:,0], pts[:,1], pts[:,2], radii_scaled[:]))
-    np.savetxt("packing.txt", stacked_data, header="ID x y z r")
+    stacked_data = np.vstack((idx_points.astype(int), pts[:,0], pts[:,1], pts[:,2], radii_scaled[:])).T
+    np.savetxt("packing.txt", stacked_data, header="ID x y z r", fmt='%i,%f,%f,%f,%f')
 
     seed=parameters['seed']
     nsamples = parameters['nsamples']
