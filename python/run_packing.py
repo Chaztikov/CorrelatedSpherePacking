@@ -405,6 +405,7 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
         print("NUM POINTS AFTER " , pts.shape)
 
     pvolumes = radii_scaled**3 * 4 * np.pi / 3 if ndimensions==3 else radii_scaled**2 * np.pi 
+    print("FINAL POROSITY: " , 1 - ((xmax-xmin)*(ymax-ymin)*(zmax-zmin) - pvolumes.sum()) )
 
     return parameters, radii_scaled, registered, unregistered, pts, pvolumes, idx_points, boundary, boundary_indices, boundary_radii
 
