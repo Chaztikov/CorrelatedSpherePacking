@@ -1,0 +1,54 @@
+# Geometric Parameters (Domain)
+periodic_geometry=1
+ndimensions=int(3)
+xmin=0
+xmax=1
+ymin=0
+ymax=0.5
+zmin=0
+zmax=0.25
+
+#Randomization Seed
+seed=0
+
+#Probabilistic Parameters
+radius_mu=1
+radius_sig2=.05
+Cmu=[1,2,4]
+Csig=np.diag([1,2,3])
+filename='spheres'
+radii_dist='lognormal'
+
+#System Size
+nsamples=int(1e4)
+target_porosity=0.30
+nbins=int(100)
+
+#KDTree search options 
+num_neighbors=int(27)
+set_leafsize_factor=int(2) #set_leafsize = set_leafsize_factor * num_neighbors 
+kdt_eps=1e-2
+pnorm=int(2)
+search_radius_factor_of_max_diameter=int(2)
+find_all_neighbors=int(0)
+percentilemin=int(5)
+percentilemax=int(95)
+
+#visualization options
+show_hist=int(0)
+
+#Force-based Parameters (TBD)
+set_dt=0.01
+blfac=0.01 #boundary layer factor
+damping=1
+tstep=0
+tprint=100
+tstepmax=1000
+force_abstol=1e-7
+fmin=1e6
+force_absmax_factor=2  #force_absmax = force_absmax_factor * force_abstol
+force_reltol=1e-8
+fmin=1e6
+max_overlap_factor=1
+
+
