@@ -25,7 +25,7 @@ mpl.rcParams['image.cmap'] = 'autumn'
 
 
 def read_input_parameters(param_filename='Parameters.in'):
-    input_parameters = np.genfromtxt(param_filename,delimiter='=',dtype=str)
+    input_parameters = np.genfromtxt(param_filename,delimiter='=',comments='#',dtype=str)
     input_parameters[:,0]
     input_parameters[:,1]
 
@@ -90,7 +90,7 @@ def overlap_correction(i, x, r, pts,radii_scaled, kdt, registered, unregistered,
             icollneigh = icollide[ineighbors]
             correct = compute_correction(x, r, icollneigh)
             x = x + correct
-            x = overlap_correction(i, x, r, pts, periodic_bounds, set_leafsize, registered, unregistered, search_radius, pnorm=2, eps=1e-2)
+            x = overlap_correction(i, x, r, pts,radii_scaled, kdt, registered, unregistered, dmax, search_radius_factor_of_max_diameter, pnorm, eps)
             return x, reinit_flag
 
     except Exception:
@@ -185,7 +185,7 @@ def get_reflected_pts(pts,idx_points, boundary, boundary_indices, boundary_radii
     return pts, radii_scaled, idx_points, boundary, boundary_indices, boundary_radii, flag
 
 
-def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', seed_increment = 0, seed=None,periodic_geometry=None,nsamples=None,target_porosity=None):
+def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", seed_increment = 0, seed=None,periodic_geometry=None,nsamples=None,target_porosity=None):
     parameters = read_input_parameters(input_parameters_filename)
     reinit_flag=0
 
@@ -287,7 +287,11 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', see
     Cnorm = RandomState.multivariate_normal(Cmu,Csig,nsamples)#,[nsamples,ndimensions])
 
     '''sample points uniformly in space '''
-    pts = RandomState.uniform(xmin,xmax,[nsamples,ndimensions])
+    pts = RandomState.uniform(0,1,[nsamples,ndimensions])
+    pts[:,0] = (pts[:,0] ) * (xmax-xmin) + xmin
+    pts[:,1] = (pts[:,1] ) * (ymax-ymin) + ymin
+    pts[:,2] = (pts[:,2] ) * (zmax-zmin) + zmin
+
 
     '''sort radii and points '''
     radii_scaled = radii_scaled[::-1]
@@ -299,7 +303,7 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', see
     if(periodic_geometry==True):
         kdt = PeriodicCKDTree(periodic_bounds, pts)
     else:
-        kdt = scipy.spatial.KDTree(pts,leafsize=set_leafsize)
+        kdt = scipy.spatial.KDTree(pts) #,leafsize=set_leafsize_factor * num_neighbors )
     if(find_all_neighbors==True):
         dist,neighbors = kdt.query(pts, k=num_neighbors, eps=kdt_eps, p = pnorm)
 
@@ -335,55 +339,6 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', see
 
 
 
-    #TBD
-    #BELOW IS FORF RFORCE BASED ALGORUTHM
-    '''
-    #formerly, scaled_radii was defined another way, so this should not be necessary
-    scaled_radii = radii_scaled.copy()
-    scaled_radius_mu = radius_mu_scaled.copy()
-
-    num_inclusions_per_dim = int((nsamples)**(1/ndimensions))
-    print(" num_inclusions_per_dim ", num_inclusions_per_dim)
-    if(find_all_neighbors==True):
-        eq_length_factor = (scaled_radii[neighbors[:,0:1]] + scaled_radii[neighbors[:,1:]])
-    else:
-        eq_length_factor = (4 * np.pi * (1/3) * (scaled_radii**3).mean())**(1/3) * np.array([[1]]) #???
-    pore_space_per_particle = (xmax - eq_length_factor.mean()*num_inclusions_per_dim)/num_inclusions_per_dim
-    medimean_eq_length = np.median( eq_length_factor.mean(axis=1))
-    porespace_per_dim = num_inclusions_per_dim * medimean_eq_length
-    porespace_per_particle  = (porespace_per_dim / (num_inclusions_per_dim - 1))/2
-    scaled_radius_diam = scaled_radius_mu*2
-
-    #set spacing
-    collision_length_factor = eq_length_factor.copy()# - pore_space_per_particle /2
-    eq_length_factor = eq_length_factor + pore_space_per_particle /2
-    horizon_factor = eq_length_factor * 1
-    # nneighbors = neighbors.shape[1]
-    tsteps = np.arange(0,tstepmax)
-
-    #TBD
-    zmin = ymin = xmin
-    zmax = ymax = xmax
-
-    #TBD
-    (pts.T[-1]-np.mod(pts.T[-1],xmax)).max()
-    # pts.T[-1][ (pts.T[-1] - radii.T)>xmax]
-    # (p - radii.T)>xmax
-    (pts.T[-1]+radii_scaled > xmax).sum()
-    ((pts**2).sum(axis=1)+radii_scaled**2 > xmax**2).sum()
-    '''
-
-    #TBD
-    #THIS IS NOT USED
-    cond, conds = where_boundary_intersect(parameters,pts,radii_scaled)
-    conds
-    # (np.linalg.norm(pts,2,axis=1)+radii_scaled > xmax).sum()
-    # pts.min()
-
-
-
-
-
 
     ''' Detect Collisions and Translate Spheres '''
     registered = []
@@ -400,7 +355,7 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', see
             pts[i] = x
             radii_scaled[i] = r
         else:
-            x,reinit_flag = overlap_correction(i, x, r, pts, radii_scaled, kdt, registered, unregistered,dmax, search_radius_factor_of_max_diameter, pnorm=2, eps=kdt_eps)
+            x,reinit_flag = overlap_correction(i, x, r, pts, radii_scaled, kdt, registered, unregistered, dmax, search_radius_factor_of_max_diameter, pnorm=2, eps=kdt_eps)
             if(reinit_flag==1):
                 break;
             registered.append(i)
@@ -434,20 +389,20 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename='Parameters.in', see
     print("SET POINT IDs (to keep track of boundary image spheres)")
     idx_points = np.arange(0,len(registered))
 
-    print("COPY BOUNDARY POINTS TO IMAGE SPHERES ACROSS PERIODIC BOUNDARIES")
-
-    print("NUM POINTS BEFORE BOUNDARY IMAGE COPY" , pts.shape)
-    flag=0
-    # while flag==0:
-    # pts, radii_scaled,idx_points, flag = get_reflected_pts(pts,idx_points, radii_scaled,xmin,xmax)
-
-
     boundary, boundary_indices, boundary_radii = [], [], [] #np.array([]), np.array([]), np.array([])
-    pts, radii_scaled, idx_points, boundary, boundary_indices, boundary_radii, flag = get_reflected_pts(pts,idx_points, boundary, boundary_indices, boundary_radii, radii_scaled,xmin,xmax)
-    print(radii_scaled.shape)
-    nsamples = radii_scaled.shape[0]
-    assert(radii_scaled.shape[0] == pts.shape[0])
-    print("NUM POINTS AFTER " , pts.shape)
+    if(periodic_geometry==1):
+        print("COPY BOUNDARY POINTS TO IMAGE SPHERES ACROSS PERIODIC BOUNDARIES")
+        print("NUM POINTS BEFORE BOUNDARY IMAGE COPY" , pts.shape)
+        flag=0
+        # while flag==0:
+        # pts, radii_scaled,idx_points, flag = get_reflected_pts(pts,idx_points, radii_scaled,xmin,xmax)
+
+
+        pts, radii_scaled, idx_points, boundary, boundary_indices, boundary_radii, flag = get_reflected_pts(pts,idx_points, boundary, boundary_indices, boundary_radii, radii_scaled,xmin,xmax)
+        print(radii_scaled.shape)
+        nsamples = radii_scaled.shape[0]
+        assert(radii_scaled.shape[0] == pts.shape[0])
+        print("NUM POINTS AFTER " , pts.shape)
 
     pvolumes = radii_scaled**3 * 4 * np.pi / 3 if ndimensions==3 else radii_scaled**2 * np.pi 
 
@@ -504,9 +459,6 @@ def main():
     parameters, radii_scaled, registered, unregistered, pts, pvolumes, idx_points, boundary, boundary_indices, boundary_radii = Run_Correlated_Sphere_Packing('Parameters.in', seed_increment, seed,periodic_geometry,nsamples,target_porosity)
 
     print(idx_points.shape, pts.shape, radii_scaled.shape)
-    stacked_data = np.vstack((idx_points.astype(int), pts[:,0], pts[:,1], pts[:,2], radii_scaled[:])).T
-    np.savetxt("packing.txt", stacked_data, header="ID x y z r", fmt='%i,%f,%f,%f,%f')
-
     seed=parameters['seed']
     nsamples = parameters['nsamples']
     ndimensions = parameters['ndimensions']
@@ -514,6 +466,22 @@ def main():
     print('seed', seed)
     save_filename = 'test_packing'
 
+
+    #save packing output
+    stacked_data = np.vstack((idx_points.astype(int), pts[:,0], pts[:,1], pts[:,2], radii_scaled[:])).T
+    np.savetxt(save_filename + ".txt", stacked_data, header="ID x y z r", fmt='%i,%f,%f,%f,%f')
+
+
+    savedict = {'points':pts,
+               'radii_scaled':radii_scaled,
+               'target_porosity':target_porosity,
+                'boundary':boundary,
+                'boundary_indices':boundary_indices, 
+                'boundary_radii':boundary_radii
+               }
+    filename = 'uncorr_pack_dim_'+str(ndimensions)+'_nparticles_'+str(nsamples)
+    with gzip.open(filename + '_.pkl','wb') as f:
+        pickle.dump(savedict,f)
 
 
 
@@ -548,16 +516,6 @@ def main():
     # plt.savefig(filename+'_tiame.png',dpi=200)
     # plt.show()
 
-    savedict = {'points':pts,
-               'radii_scaled':radii_scaled,
-               'target_porosity':target_porosity,
-                'boundary':boundary,
-                'boundary_indices':boundary_indices, 
-                'boundary_radii':boundary_radii
-               }
-    filename = 'uncorr_pack_dim_'+str(ndimensions)+'_nparticles_'+str(nsamples)
-    with gzip.open(filename + '_.pkl','wb') as f:
-        pickle.dump(savedict,f)
 
 
 
