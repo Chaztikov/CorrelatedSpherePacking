@@ -216,9 +216,7 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
     except Exception as e:
         print('no porosity specified')
 
-    
-    
-    
+
 
     '''increment in case of reinitialization'''
     print(" seed_increment ", seed_increment, " type ", type(seed_increment))
@@ -405,8 +403,17 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
         print("NUM POINTS AFTER " , pts.shape)
 
     pvolumes = radii_scaled**3 * 4 * np.pi / 3 if ndimensions==3 else radii_scaled**2 * np.pi 
-    print("FINAL POROSITY: " , 1 - ((xmax-xmin)*(ymax-ymin)*(zmax-zmin) - pvolumes.sum()) )
+    porosity = 1 - (domain_volume - pvolumes.sum()) / domain_volume
 
+    print("\n domain size ", " [xmin,xmax] ", xmin,xmax, " [ymin,ymax] ", ymin,ymax, " [zmin,zmax] ", zmin,zmax, " volume " , domain_volume)
+    print('particle volumes: sum, mean, median, min, max', pvolumes.sum(), pvolumes.mean(), np.median(pvolumes) , pvolumes.min(), pvolumes.max())
+    print("\n \n \n porosity ", porosity)
+    print("\n number of spheres ", registered.shape)
+    print("\n number of registered spheres ", registered.shape)
+    print("\n number of unregistered spheres ", registered.shape )
+    print("\n sphere distribution parameters ", radius_mu, radius_sig2)
+    print("\n mean coordination number ", )
+    print("\n \n \n ")
     return parameters, radii_scaled, registered, unregistered, pts, pvolumes, idx_points, boundary, boundary_indices, boundary_radii
 
 
@@ -488,7 +495,7 @@ def main():
 
     psize = ((pvolumes-pvolumes.min()))
     psize = psize/psize.max()
-    psize = psize * nsamples**(1/ndimensions) #/16
+    psize = psize * nsamples
 
 
 
