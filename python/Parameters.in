@@ -1,12 +1,12 @@
 # Geometric Parameters (Domain)
-periodic_geometry=1
+periodic_geometry=0
 ndimensions=int(3)
-xmin=0
-xmax=1
-ymin=0
-ymax=1
-zmin=0
-zmax=1
+xmin=float(0)
+xmax=float(1)
+ymin=float(0)
+ymax=float(1)
+zmin=float(0)
+zmax=float(4)
 
 #Randomization Seed
 seed=0
@@ -17,11 +17,21 @@ radius_sig2=.05
 Cmu=[1,2,4]
 Csig=np.diag([1,2,3])
 filename='spheres'
-radii_dist='lognormal'
-
+radii_dist='lognormal' 
+#lognormal mean: exp(mu+sig2/2) 
+#median exp(mu) 
+#mode exp(mu - sig2) 
+#variance = mean^2 (-1+E^\[Sigma]^2)}
+#quantile q = E^(\[Mu] - Sqrt[2] \[Sigma]^2 InverseErfc[2 q])
+#Quantiles .05, .95 = {E^(\[Mu] - Sqrt[2]*E^(\[Mu] - Sqrt[2]*\[Sigma]^2*InverseErfc[1/10])*\[Sigma]), 
+# -E^(\[Mu] - Sqrt[2]*E^(\[Mu] - Sqrt[2]*\[Sigma]^2*InverseErfc[1/10])*\[Sigma]) + 
+#  E^(\[Mu] - Sqrt[2]*E^(\[Mu] + Sqrt[2]*\[Sigma]^2*InverseErfc[1/10])*\[Sigma])}
+#get rmin, rmin+rrange=:rmax given quantiles
+#with quantiles, get truncated CDF
+# given mean and variance, have median
 #System Size
-nsamples=int(1e4)
-target_porosity=0.30
+nsamples=int(1e3)
+target_porosity=0.4
 nbins=int(100)
 
 #KDTree search options 

@@ -269,7 +269,7 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
 
 
     '''rescale radii to obtain desired porosity'''
-    rscale = ( (  np.sum(4*np.pi*(1/3.) * radii**3) ) / ( domain_volume * target_porosity ) )**(1/3)
+    rscale = ( (  np.sum(4*np.pi*(1/3.) * radii**3) ) / ( domain_volume * (1-target_porosity) ) )**(1/3)
     radii_scaled = radii/rscale
     radius_mu_scaled = radius_mu / rscale
     radius_sig2_scaled = radius_sig2 / rscale**2
