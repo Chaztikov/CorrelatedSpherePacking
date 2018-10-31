@@ -54,14 +54,44 @@ def parameter_values(parameters, *args):
     return args
 
 
-def compute_correction(x,r,ineighbors):
-    xn = pts[ineighbors]
-    rn = radii_scaled[ineighbors]
-    dn = np.linalg.norm(x[:,None]-xn,2,axis=0)
-    correct = (r[:,None] + rn) - dn * (xn - x[:,None]) / dn
-    correct = np.sum(correct, axis=0)
-    return correct
+def compute_correction(x,r,ineighbors,pts,radii_scaled):
+    print("COMPUTE CORRECTION")
 
+    # if(len(ineighbors)>1):
+    #     1;
+    # else:
+    #     print(len(ineighbors))
+
+    xn = pts[ineighbors]
+    print("xn")
+    print(xn)
+    rn = radii_scaled[ineighbors]
+    print("rn")
+    print(rn)
+    print(xn.shape,x.shape)
+    dxn = (xn - x[None,:]) 
+    dn = np.linalg.norm(x[None,:]-xn,2,axis=0)
+    print("dn, dxn")
+    print(dn, dxn.shape)
+    print(rn.shape,r.shape)
+
+    correct = (r+ rn)
+    print("correct")
+    print(correct)
+    correct = (correct[:,None] - dxn)/dn
+    print("correct")
+    print(correct)
+    correct = np.sum(correct, axis=0)
+    print("correct")
+    print(correct)
+
+    return correct
+# xn = pts[ineighbors]
+# rn = radii_scaled[ineighbors]
+# dn = np.linalg.norm(x[:,None]-xn,2,axis=0)
+# correct = (r[:,None] + rn) - (xn - x[:,None]) * 2 * dn
+# correct = np.sum(correct, axis=0)
+# return correct
 
 def overlap_correction(i, x, r, pts,radii_scaled, kdt, registered, unregistered, dmax, search_radius_factor_of_max_diameter=2, pnorm=2, eps=1e-2):       
     search_radius = search_radius_factor_of_max_diameter * dmax
@@ -69,41 +99,53 @@ def overlap_correction(i, x, r, pts,radii_scaled, kdt, registered, unregistered,
     ineighbors = np.array(ineighbors) 
     
     if(ineighbors.shape[0] < 2 ):
-        return x,0
+        reinit_flag=0
+        # return x,0
 
+    print(ineighbors.shape[0])
     if(ineighbors.shape[0]>2):
-        dist_collide = np.linalg.norm(x[None,:] - pts[ineighbors], pnorm)#, axis=2)
+        print(pts.shape)
+        dist_collide = np.linalg.norm(x[None,:] - pts[ineighbors], pnorm, axis=1)
+        my_collision_length = radii_scaled[ineighbors] + r
+        icollide = (dist_collide < my_collision_length)
+        icollidesum = (icollide).sum()
+
     else:
         dist_collide = np.linalg.norm(x[:]-pts[ineighbors], pnorm)
-
-    my_collision_length = radii_scaled[ineighbors] + r
-
-
-    icollide = (dist_collide < my_collision_length)
-    icollidesum = (icollide).sum()
+        icollidesum=0
     try:
         if( icollidesum < 1 ):
             reinit_flag = 0
-            return x, reinit_flag
+            # return x, reinit_flag
         else:
+            print("CORRECT")
             icollide = np.where(icollide)
-            icollneigh = icollide[ineighbors]
-            correct = compute_correction(x, r, icollneigh)
-            x = x + correct
-            x = overlap_correction(i, x, r, pts,radii_scaled, kdt, registered, unregistered, dmax, search_radius_factor_of_max_diameter, pnorm, eps)
-            return x, reinit_flag
+            print(icollide)
+            print(ineighbors)
 
+            icollneigh = icollide
+            # icollneigh = np.intersect_1d(icollide,ineighbors)
+            print(icollneigh)
+
+            correct = compute_correction(x,r,icollide,pts,radii_scaled)
+            print("CORRECTION COMPUTED")
+
+
+            x = x + correct
+            x,reinit_flag = overlap_correction(i, x, r, pts,radii_scaled, kdt, registered, unregistered, dmax, search_radius_factor_of_max_diameter, pnorm, eps)
+        
     except Exception:
         print(' \n \n Exception During Collision Check: Re-initialize with new random seed \n \n ')
-        print('x ', x)
-        print('icollidesum ', icollidesum)
-        print('r ', r)
-        print('registered ', len(registered))
-        print('unregistered ', len(unregistered))
-        reinit_flag = 1
-        return x, reinit_flag
-    
-    return correct,0
+    return x, reinit_flag
+# print('x ', x)
+# print('icollidesum ', icollidesum)
+# print('r ', r)
+# print('registered ', len(registered))
+# print('unregistered ', len(unregistered))
+# reinit_flag = 1
+# return x, reinit_flag
+
+# return correct,0
 
 
 def compute_all_overlap(pts, neighbors, nsamples, collision_length_factor):
@@ -238,6 +280,15 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
 
 
 
+#lognormal
+# probability distr. fcn.
+# cumulative distr. fcn.
+# inverse cdf 
+# q05 = np.exp( )
+#get rmin, rmin+rrange=:rmax given quantiles
+#with quantiles, get truncated CDF
+# given mean and variance, have median
+
     #PART I
     '''sample radii'''
     # #sample radii 
@@ -245,7 +296,23 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
     # v0 = (radii**3 * 4*np.pi/(3 * (xmax-xmin)**3))
     # v0 = v0/v0.sum()
     if(radii_dist=='lognormal'):
-        Z = RandomState.lognormal( np.log(radius_mu) , radius_sig2 ,nsamples)
+        # V prior error, fix: mean of lognormal is mean of associated normal distribution
+
+        #lognormal:
+        # mean: exp(mu+sig2/2) 
+        #median exp(mu) 
+        #mode exp(mu - sig2) 
+        #variance = mean^2 (-1+E^\[Sigma]^2)}
+        #quantile q = E^(\[Mu] - Sqrt[2] \[Sigma]^2 InverseErfc[2 q])
+        #Quantiles 
+        # q05 = E^(\[Mu] - Sqrt[2]*E^(\[Mu] - Sqrt[2]*\[Sigma]^2*InverseErfc[1/10])*\[Sigma])
+        # q95 = E^(\[Mu] - Sqrt[2]*E^(\[Mu] + Sqrt[2]*\[Sigma]^2*InverseErfc[1/10])*\[Sigma])} - -E^(\[Mu] - Sqrt[2]*E^(\[Mu] - Sqrt[2]*\[Sigma]^2*InverseErfc[1/10])*\[Sigma])
+
+        # lognormal_sig2 = np.log( radius_sig2 / radius_mu**2 + 1 )
+        # lognormal_mu = np.log( radius_mu ) - lognormal_sig2 / 2
+
+        # Z = RandomState.lognormal( lognormal_mu , lognormal_sig2 ,nsamples)
+        Z = RandomState.lognormal( radius_mu , radius_sig2 ,nsamples)
         radii = np.exp(Z)
 
     if(show_hist==True):
@@ -278,6 +345,7 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
     delta = dcell - 2*rmax
     search_radius = 2*dmax#+delta
 
+    # print("IINTERIOR " , iinterior)
 
 
     #TBD
@@ -327,11 +395,12 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
 
     '''BC, EQ separation, pore throat size, collision distances, PD'''
     boundary_layer = [blfac, xmax *(1- blfac)]
+    # IINT
     print("BOUINDARY LAYER" , boundary_layer)
     iboundary = np.any(((pts<boundary_layer[0]).astype(int)+(pts>boundary_layer[1]).astype(int)) , axis=1)
     iinterior = np.all((pts>boundary_layer[0]).astype(int) * (pts<boundary_layer[1]).astype(int),axis=1)
-    print("IBOUNDARY " , iboundary)
-    print("IINTERIOR " , iinterior)
+    # print("IBOUNDARY " , iboundary)
+    # print("IINTERIOR " , iinterior)
     print('\n \n \n ' , " NUMBER OF BOUNDARY SPHERES ", iboundary.sum(), " TOTAL CONSIDERED ", iboundary.shape, '\n \n \n ' , "NUMBER OF INTERIOR SPHERES", iinterior.sum(), " TOTAL CONSIDERED ",  iinterior.shape, '\n \n \n ')
     # ,iboundary.sum()
 
@@ -349,26 +418,27 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
             print(i,x,r, time.time())
         if(i==0):
             registered.append(i)
-            unregistered.remove(i)
             pts[i] = x
             radii_scaled[i] = r
         else:
             x,reinit_flag = overlap_correction(i, x, r, pts, radii_scaled, kdt, registered, unregistered, dmax, search_radius_factor_of_max_diameter, pnorm=2, eps=kdt_eps)
             if(reinit_flag==1):
-                break;
-            registered.append(i)
-            unregistered.remove(i)
-            pts[i] = x
-            radii_scaled[i] = r
+                if(periodic_geometry==1):
+                    break;
+            elif(reinit_flag==0):                    
+                registered.append(i)
+                pts[i] = x
+                radii_scaled[i] = r
+        unregistered.remove(i)
 
         t_list.append(time.time() - tlast)
         tlast = time.time()
 
-    if(reinit_flag==1):
-        print(" \n Reinitializing Simulation \n")
-        return Run_Correlated_Sphere_Packing(seed_increment+1)
-    else:
-        print("\n No collisions found, continuing.. \n")
+    # if(reinit_flag==1):
+    #     print(" \n Reinitializing Simulation \n")
+    #     return Run_Correlated_Sphere_Packing(seed_increment+1)
+    # else:
+    #     print("\n No collisions found, continuing.. \n")
     t_list = np.array(t_list)
 
     registered = np.array(registered)
@@ -401,6 +471,24 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
         nsamples = radii_scaled.shape[0]
         assert(radii_scaled.shape[0] == pts.shape[0])
         print("NUM POINTS AFTER " , pts.shape)
+
+    # pts = pts[registered]
+    # radii_scaled = radii_scaled[registered]
+
+
+
+    print(idx_points.shape, pts.shape, radii_scaled.shape)
+    # seed=parameters['seed']
+    # nsamples = parameters['nsamples']
+    # ndimensions = parameters['ndimensions']
+    # print('seed', seed)
+    save_filename = 'packing'
+    #save packing output
+    stacked_data = np.vstack((idx_points.astype(int), pts[:,0], pts[:,1], pts[:,2], radii_scaled[:])).T
+    np.savetxt(save_filename + ".txt", stacked_data, header="ID x y z r", fmt='%i,%E,%E,%E,%E')
+
+
+
 
     pvolumes = radii_scaled**3 * 4 * np.pi / 3 if ndimensions==3 else radii_scaled**2 * np.pi 
     porosity = 1 - (domain_volume - pvolumes.sum()) / domain_volume
@@ -470,14 +558,11 @@ def main():
     seed=parameters['seed']
     nsamples = parameters['nsamples']
     ndimensions = parameters['ndimensions']
-
     print('seed', seed)
     save_filename = 'test_packing'
-
-
     #save packing output
     stacked_data = np.vstack((idx_points.astype(int), pts[:,0], pts[:,1], pts[:,2], radii_scaled[:])).T
-    np.savetxt(save_filename + ".txt", stacked_data, header="ID x y z r", fmt='%i,%f,%f,%f,%f')
+    np.savetxt(save_filename + ".txt", stacked_data, header="ID x y z r", fmt='%i,%E,%E,%E,%E')
 
 
     savedict = {'points':pts,
