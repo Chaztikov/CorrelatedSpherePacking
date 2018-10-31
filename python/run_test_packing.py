@@ -462,6 +462,8 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
     print("SET POINT IDs (to keep track of boundary image spheres)")
     idx_points = np.arange(0,len(registered))
 
+
+
     boundary, boundary_indices, boundary_radii = [], [], [] #np.array([]), np.array([]), np.array([])
     if(periodic_geometry==1):
         print("COPY BOUNDARY POINTS TO IMAGE SPHERES ACROSS PERIODIC BOUNDARIES")
@@ -479,10 +481,12 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
 
     # pts = pts[registered]
     # radii_scaled = radii_scaled[registered]
+    
+    # print(np.all((pts[0]<xmax , pts[1]<ymax , pts[2]<zmax , pts[0]>xmin , pts[1]>ymin , pts[2]>zmin) , axis=2))
+    # idbounds = np.where( np.all(pts[0]<xmax , pts[1]<ymax , pts[2]<zmax , pts[0]>xmin , pts[1]>ymin , pts[2]>zmin))[0]
+    # print(idbounds)
+    # print(idx_points.shape, pts.shape, radii_scaled.shape)
 
-
-
-    print(idx_points.shape, pts.shape, radii_scaled.shape)
     # seed=parameters['seed']
     # nsamples = parameters['nsamples']
     # ndimensions = parameters['ndimensions']
