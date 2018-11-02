@@ -283,40 +283,12 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
 
     periodic_bounds = np.array([xmax,ymax,zmax])[:ndimensions]
 
-
-
-#lognormal
-# probability distr. fcn.
-# cumulative distr. fcn.
-# inverse cdf 
-# q05 = np.exp( )
-#get rmin, rmin+rrange=:rmax given quantiles
-#with quantiles, get truncated CDF
-# given mean and variance, have median
-
     #PART I
     '''sample radii'''
-    # #sample radii 
-    # while target_porosity < v0:
-    # v0 = (radii**3 * 4*np.pi/(3 * (xmax-xmin)**3))
-    # v0 = v0/v0.sum()
     if(radii_dist=='lognormal'):
         # V prior error, fix: mean of lognormal is mean of associated normal distribution
 
         #lognormal:
-        # mean: exp(mu+sig2/2) 
-        #median exp(mu) 
-        #mode exp(mu - sig2) 
-        #variance = mean^2 (-1+E^\[Sigma]^2)}
-        #quantile q = E^(\[Mu] - Sqrt[2] \[Sigma]^2 InverseErfc[2 q])
-        #Quantiles 
-        # q05 = E^(\[Mu] - Sqrt[2]*E^(\[Mu] - Sqrt[2]*\[Sigma]^2*InverseErfc[1/10])*\[Sigma])
-        # q95 = E^(\[Mu] - Sqrt[2]*E^(\[Mu] + Sqrt[2]*\[Sigma]^2*InverseErfc[1/10])*\[Sigma])} - -E^(\[Mu] - Sqrt[2]*E^(\[Mu] - Sqrt[2]*\[Sigma]^2*InverseErfc[1/10])*\[Sigma])
-
-        # lognormal_sig2 = np.log( radius_sig2 / radius_mu**2 + 1 )
-        # lognormal_mu = np.log( radius_mu ) - lognormal_sig2 / 2
-
-        # Z = RandomState.lognormal( lognormal_mu , lognormal_sig2 ,nsamples)
         Z = RandomState.lognormal( np.log(radius_mu) , radius_sig2 ,nsamples)
         # lognormal_sig2 = np.log( radius_sig2 / radius_mu**2 + 1 )
         # lognormal_mu = np.log( radius_mu ) - lognormal_sig2 / 2
@@ -496,6 +468,8 @@ def Run_Correlated_Sphere_Packing(input_parameters_filename="Parameters.in", see
     # print('seed', seed)
     save_filename = 'packing'
     #save packing output
+    idx_points = np.arange(0,len(registered))
+
     stacked_data = np.vstack((idx_points.astype(int), pts[:,0], pts[:,1], pts[:,2], radii_scaled[:])).T
     np.savetxt(save_filename + ".txt", stacked_data, header="ID x y z r", fmt='%i,%E,%E,%E,%E')
 
