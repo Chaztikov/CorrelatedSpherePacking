@@ -1,0 +1,30 @@
+Input Parameters in BALMER:
+alphar   betar    cnfint   porosity_
+ -2.1202     0.055     0.99     0.346
+index  mpBC   ncor   nc     ncz    nrndsd sdnrm________       
+      4      1      0      9      9   253    111451.58
+pi           eps          tolrnce______
+    3.1415927       1.0e-4       1.0e-6
+gridln       Ngrid  Nzgrid mr_____     
+      0.44350    10     10     50       
+
+alphar - the mean of a normal distribution, lnr0
+betar - the standard deviation of the normal distribution
+cnfint - confidence interval for the normal distribution
+porosity - initial packing porosity 
+index - porosity control parameter (1-5, 1 means the highest porosity
+														 output
+                                         5 means the lowest porosity
+														 output)
+mpBC - 1 means periodical  boundary condition is imposed
+ncor - 1 means spatial correlation 
+		 0 means no spatial correlation
+nc - number of cells in x and y directions
+ncz - number of cells in z direction
+nrndsd - random seed for a random number generation
+sdnrm - rnadom seed for a normal distribution
+gridln - the element length for a p-field
+Ngrid - number of elements for a p-field in x or y direction
+Nzgird - number of elements for a p-field in z direction
+mr - number of devision for computing pdf
+
