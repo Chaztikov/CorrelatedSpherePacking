@@ -5,7 +5,7 @@ Created on Wed Nov 28 13:13:16 2018
 
 @author: chaztikov
 """
-import revised_packing_pbc.py
+#import revised_packing_pbc.py
 import os,sys
 cwd=os.getcwd()
 sys.path.append(cwd)
@@ -55,21 +55,19 @@ psize = (pvolumes-pvolumes.min() )
 # psize = psize/psize.max()
 
 import plotly
-
-
 import plotly.plotly as py
 import plotly.graph_objs as go
 import numpy as np
 
-N = 1000
-trace = go.Scattergl(
-    x = np.random.randn(N),
-    y = np.random.randn(N),
-    mode = 'markers',
-    marker = dict(
-        color = '#FFBAD2',
-        line = dict(width = 1)
+try:
+    trace = go.Scatter3d(x,y,z,
+        mode = 'markers',
+        marker = dict(
+            color = '#FFBAD2',
+            line = dict(width = 1)
+        )
     )
-)
-data = [trace]
-py.iplot(data, filename='packing_revised.txt',fileopt='new')
+    data = [trace]
+    py.iplot(data, filename='packing_revised.txt',fileopt='new')
+except Exception as e:
+    print("\n \n",e)
