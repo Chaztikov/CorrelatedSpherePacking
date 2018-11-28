@@ -1,0 +1,317 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Nov 28 10:19:22 2018
+
+@author: chaztikov
+"""
+
+import os,sys
+cwd=os.getcwd()
+sys.path.append(cwd)
+import numpy as np
+import scipy
+import scipy.stats
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import run_test_packing
+from run_test_packing import *
+
+
+
+def porosity_from_radii(radii_scaled, domain_volume,ndimensions = 3):
+    pvolumes = radii_scaled**3 * 4 * np.pi / 3 if ndimensions==3 else radii_scaled**2 * np.pi
+    porosity = (domain_volume - pvolumes.sum()) / domain_volume
+    return porosity,pvolumes
+
+def compute_current_domain_bounding_box(radii_scaled,pts,bbox_vertices):
+    radii_scaled.max()
+#     idmax = pts.argmax(axis=0)
+#     idmin = pts.argmin(axis=0)
+
+#     bbox_vertices = np.vstack(
+#         (pts.min(axis=0) + radii_scaled[idmin],
+#         pts.max(axis=0) + radii_scaled[idmax] ))
+#     bbox_vertices = np.vstack(
+#         (pts.min(axis=0) ,
+#         pts.max(axis=0) ))
+#     print(pts.min(axis=0), pts.max(axis=0))
+
+#     domain_volume = np.prod( bbox_vertices[1] - bbox_vertices[0] )
+#     print(domain_volume)
+    domain_volume= (xmax-xmin) * (ymax-ymin) * (zmax-zmin)
+    porosity,pvolumes = porosity_from_radii(radii_scaled, domain_volume)
+    return bbox_vertices, domain_volume, porosity,pvolumes
+
+def compute_correction(x,r,xn,rn):
+    print("compute_correction")
+    print(xn.shape, x.shape)
+#     dxn = np.subtract(xn,x)
+#     dxn = (xn - x[None,:])
+#     dxn = xn - np.atleast_2d(x)
+#     try:
+#         dxn = (xn - x[None,:])
+#     except Exception as e:
+#         dxn = (xn - x[:,None]).T
+    print(x.shape,rn.shape)
+    if( xn.shape[0]>1):
+        dxn = (xn - x[None,:] ).copy()
+        dn = np.linalg.norm( dxn , 2 , axis=1)
+        print(dxn.shape,dn.shape)
+        print(r)
+    else:
+        dxn = (xn - x[:] ).copy()
+        dn = np.linalg.norm( dxn , 2 , axis=1)
+        print(r.shape)
+        print(dxn.shape,dn.shape, (r+ rn).shape)
+#    print(dn.shape)
+    correct = (rn).copy()
+#    corect = np.mod(correct,1)
+    print(correct.shape)
+#    print(dxn.shape)
+    xnew = dxn.copy()
+    xnew = xnew / dn[:,None]
+    print(xnew.shape)
+    for i in range(3):
+        xnew[:,i] = correct -  dxn[:,i] / dn# / np.atleast_2d(dn).T
+    print(dxn.shape)
+#    print( (dxn / np.atleast_2d( dn[None,:] )).shape)
+#    correct =correct[None,:] - dxn # / np.atleast_2d( dn[None,:] )
+#    print(correct.shape)
+#    corect = np.mod(correct,1)
+#    corect = np.mod(correct.sum(axis=0),1)
+#    print(min(correct.shape))#==3)
+#    xnew = correct + np.mod(x,1)
+    xnew = np.mod(xnew,1)
+
+#     try( np.isnan(xnew.sum()) or np.isinf(xnew.sum() )):
+#         ;
+#     print(correct.sum(axis=0))
+    print("xnew.shape" , xnew.shape)
+
+    return xnew
+
+def overlap_correction(x, r, pts, radii_scaled, RandomState, bbox_vertices,pnorm=2,periodic=1,deltar_min=1.001):
+    reinit_flag=0
+
+    print(x.shape)
+    print("\n pts.shape \n", pts.shape, radii_scaled.shape)
+    assert(pts.shape[0], radii_scaled.shape[0])
+
+    if(pts.shape[0]<2):
+        return x, 0
+
+    if(periodic):
+        kdt=PeriodicCKDTree(np.array(periodic_bounds), pts)
+        icollide = kdt.query_ball_point(x, deltar_min * np.max(r+radii_scaled))
+    else:
+        print('aperiodic')
+        icollide = np.where(((x-pts[:])**2).sum(axis=1) < (radii_scaled[:] + r) * deltar_min  )
+
+    assert(pts.shape[0], radii_scaled.shape[0])
+
+#     icollide=np.array(icollide)
+    print(len(icollide))
+    print(icollide)
+#     print( " " , (icollide).sum() )
+#     if(not type(icollide[0])==int):
+#         break
+    print("\n icollide \n", icollide , "\n")
+    if( len(icollide) > 1 and type(icollide[0])==int ):
+        print(pts.shape, radii_scaled.shape)
+#        print(pts[icollide], radii_scaled[icollide])
+        reinit_flag = 1
+        periodic = 1
+
+        if(periodic):
+            print( '\n periodic \n')
+#            x=np.atleast_2d(x)
+            print(x.shape, r, pts.shape, radii_scaled.shape)
+            x = compute_correction(x,r,pts[:],radii_scaled[:])
+        else:
+            x = compute_correction(x,r,pts[:],radii_scaled[:])
+
+        xnew,reinit_flag = overlap_correction(x, r, pts, radii_scaled, RandomState, bbox_vertices, pnorm,periodic)
+        #         if( np.isclose(0,(xnew-x).sum())):
+        #             x = np.array([RandomState.uniform(bbox_vertices[0][i],bbox_vertices[1][i]) for i in range(3)])
+
+    return x, reinit_flag
+
+seed=0
+xmax,xmin=1,0
+ymax,ymin=1,0
+zmax,zmin=1,0
+ndimensions=3
+radii_dist='lognormal'
+radii_dist='uniform'
+radius_mu=0.001
+radius_sig2=1e-10
+tol_self_collision=1e-2
+increment_print=int(1e1)
+nsamples=int(1e3 * 4) #expect: far fewer used (until we achieve target porosity within tolerance)
+
+percentilemin,percentilemax=10,90
+
+target_porosity=0.35
+
+'''
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+'''
+
+
+
+
+domain_volume= (xmax-xmin) * (ymax-ymin) * (zmax-zmin)
+coord_min,coord_max,coord_minmax=np.min((xmin,ymin,zmin)), np.max((xmax,ymax,zmax)),np.min((xmax,ymax,zmax))
+RandomState = np.random.RandomState(0)
+print(radius_mu)
+
+if(radii_dist=='lognormal'):
+    lognormal_sig2 = np.log( radius_sig2 / radius_mu**2 + 1 )
+    lognormal_mu = np.log( radius_mu ) - lognormal_sig2 / 2
+    radii = RandomState.lognormal( lognormal_mu, lognormal_sig2 ,nsamples)
+    radii.mean(),np.std(radii)
+
+    '''truncate sampled distribution'''
+    pmin = np.percentile(radii,percentilemin),
+    pmax = np.percentile(radii,percentilemax)
+    radii = radii[radii<pmax]
+    radii = radii[radii>pmin]
+    nsamplesclip = nsamples - radii.shape[0]
+    nsamples = radii.shape[0]# - nsamplesclip
+    # radii = np.sort(radii)
+
+else:
+    radii = np.ones([nsamples]) * radius_mu
+#     (radius_mu + 0)*RandomState.lognormal( lognormal_mu, lognormal_sig2 ,nsamples)
+
+
+Z=None
+pts=None
+rmax=1
+dmax=1
+rscale=1
+# if(do_rescale):
+'''rescale radii to obtain desired porosity'''
+rscale = ( (  np.sum( np.pi * (4./3.) * radii**3) ) / ( domain_volume * (1 - 0.9 * target_porosity) ) )**(1/3)
+Z = radii/rscale
+radius_mu_scaled = radius_mu / rscale
+radius_sig2_scaled = radius_sig2 / rscale**2
+rmax = ( Z ).max()
+dmax = 2*rmax
+
+
+
+
+
+# else:
+#     domain_volume = np.ceil(( (radii**3 * 4 * np.pi/3.).sum() / (1.-target_porosity) ))
+#     domain_length = np.ceil((domain_volume)**(1./3.)).astype(int)
+#     sphere_length = np.ceil((domain_volume * target_porosity)**(1./3.)).astype(int)
+#     xmax *= sphere_length
+#     ymax *= sphere_length
+#     zmax *= sphere_length
+#     bbox_vertices = [(xmin,ymin,zmin),(xmax,ymax,zmax)]
+#     Z = radii
+#     bbox_vertices, domain_volume, porosity, pvolumes = compute_current_domain_bounding_box(radii, pts, bbox_vertices)
+#     print("Current Porosity ", porosity)
+'''plot original and transformed distributions'''
+plt.hist(Z);
+plt.title( "Transformed Lognormal Parameters: \n" + str( np.round( scipy.stats.lognorm.fit( np.atleast_2d(Z) ), 3) ))
+plt.show()
+
+plt.hist(radii);
+plt.title( "Original Lognormal Parameters: \n" + str( np.round( scipy.stats.lognorm.fit( np.atleast_2d(radii) ), 3) ))
+plt.show()
+
+
+do_rescale=1
+bbox_vertices = [(xmin,ymin,zmin),(xmax,ymax,zmax)]
+periodic_bounds=bbox_vertices[1]
+
+periodic_geometry=True
+kdt=None
+# if(periodic_geometry==True):
+#     kdt = PeriodicCKDTree(periodic_bounds, pts)
+# else:
+#     kdt = scipy.spatial.KDTree(pts) #,leafsize=set_leafsize_factor * num_neighbors )
+
+
+# approx_samples_per_dim = int((nsamples)**(2/3))
+# print(approx_samples_per_dim)
+# bbox_rescale_factor = 2*Z.max() * approx_samples_per_dim
+# xmax *= bbox_rescale_factor
+# ymax *= bbox_rescale_factor
+# zmax *= bbox_rescale_factor
+
+''' Detect Collisions and Translate Spheres '''
+registered = []
+unregistered = [i for i in range(nsamples)]
+boundary = []
+t_list = []
+tlast = time.time()
+radii_scaled = np.array([])
+pts=np.array([])
+rands=[]
+for i,radius in enumerate(Z):
+
+    r = radius
+#    print(r)
+    pt=np.zeros([3])
+#     pt = RandomState.uniform(0,1,[ndimensions])
+#     rands.append(pt)
+#     pt[0] = (pt[0] ) * (xmax-xmin) + xmin
+#     pt[1] = (pt[1] ) * (ymax-ymin) + ymin
+#     pt[2] = (pt[2] ) * (zmax-zmin) + zmin
+    pt[0] = RandomState.uniform(0,xmax)
+    pt[1] = RandomState.uniform(0,ymax)
+    pt[2] = RandomState.uniform(0,zmax)
+
+    x = pt.copy()
+    x = np.atleast_2d(x)
+#    print(x.shape)
+#
+    if(i>0 and i%increment_print==0):
+        bbox_vertices, domain_volume, current_porosity, pvolumes = compute_current_domain_bounding_box(radii_scaled, pts, bbox_vertices)
+        print("\n Iteration",i,"\n Curr. Sph. Posn. ",x, "\n Sph. Rad.",r,
+              "\n time", time.time(), "\n current porosity" , current_porosity,
+              "\n bbox_vertices", bbox_vertices, "\n domain_volume" , domain_volume)
+#         except Exception as e:
+#             print(e)
+    else:
+        if(pts.shape[0]>np.inf):
+            break;
+        else:
+            1;
+            x,reinit_flag = overlap_correction(x, r, pts, radii_scaled, RandomState, bbox_vertices,2,1)
+#         reinit_flag=0
+        if(reinit_flag==1):
+            if(periodic_geometry==1):
+                break;
+
+        elif(reinit_flag==0):
+
+#             print(Z[i], r)
+            registered.append(i)
+
+            if(i>0):
+                pts = np.vstack((pts,x))
+                radii_scaled = np.hstack((radii_scaled,r))
+            else:
+                pts = np.array([pt.tolist()])
+                radii_scaled = np.array([radius])
+
+            print(pts.shape, radii_scaled.shape)
+#            Z[i] = r
+            try:
+                unregistered.remove(i)
+            except Exception as e:
+                break;
+    t_list.append(time.time() - tlast)
+    tlast = time.time()
+
+
+
