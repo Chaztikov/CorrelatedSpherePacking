@@ -104,11 +104,9 @@ def overlap_correction(x, r, pts, radii_scaled, RandomState, bbox_vertices,pnorm
         if(verbose ==2): print(pts.shape, radii_scaled.shape)
 
         reinit_flag = 1
-        periodic = 1
 
         if(periodic):
             if(verbose ==2): print( '\n periodic \n')
-
             if(verbose ==2): print(x.shape, r, pts.shape, radii_scaled.shape)
             x = compute_correction(x,r,pts[:],radii_scaled[:])
         else:
@@ -342,20 +340,20 @@ for i in range(0,len(idx)):
 print("check porosity " , 1.-volume)
 
 
-# # Check Distribution Parameters
-# print(np.mean(r))
-# print(np.std(r))
+print( "Distribution Params: radii")
+print(np.mean(r))
+print(np.std(r))
 
 #Check Overlap
 import sklearn.metrics
 from sklearn.metrics import pairwise_distances as pwdist
 pts = np.vstack((x,y,z)).T
-dist=pwdist(pts)
+dist=pwdist(pts , 1)
 row,col=np.where(dist<r[:,None]+r[None,:])
-[dist[ri,ci] for ri,ci in zip(row,col) if ri<ci]
+ioverlap = np.array([dist[ri,ci] for ri,ci in zip(row,col) if ri<ci])
 
-
-# print("Total Number of Overlaps ", count-1)
+print("overlap indices", ioverlap)
+print("Total Number of Overlaps ", count-1)
 
 
 

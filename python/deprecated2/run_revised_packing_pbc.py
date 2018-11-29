@@ -146,6 +146,9 @@ def overlap_correction(x, r, pts, radii_scaled, RandomState, bbox_vertices,pnorm
 
     return x, reinit_flag
 
+
+
+
 seed=0
 xmax,xmin=1,0
 ymax,ymin=1,0
@@ -158,7 +161,7 @@ radius_mu=0.001
 radius_sig2=1e-10
 tol_self_collision=1e-2
 increment_print = int(1e1)
-nsamples=int(1e3 * 4)
+nsamples=int(1e5 * 1)
 
 percentilemin,percentilemax=10,90
 

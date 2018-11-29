@@ -1,5 +1,5 @@
 # Geometric Parameters (Domain)
-periodic_geometry=0
+periodic_geometry=1
 ndimensions=int(3)
 xmin=float(0)
 xmax=float(1)
